@@ -196,7 +196,7 @@ model TbTienNghi {
 
 model Avatars {
   id        String @id @default(uuid())
-  public_id String 
+  public_id String
   url       String
   user      User   @relation(fields: [userId], references: [id])
   userId    String @unique
