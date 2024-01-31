@@ -1,7 +1,10 @@
+'use client'
+
 import styles from "@/utils/style";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter  } from 'next/navigation'
 import {
   AiOutlineEye,
   AiOutlineEyeInvisible,
@@ -13,13 +16,9 @@ import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "@/graphql/actions/login.action";
 import Cookies from "js-cookie";
 import { signIn } from "next-auth/react"
+import { formSchemaLogin } from "@/lib/zod/formSchemaLogin";
 
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8, "Password must be at least 8characters long!"),
-});
-
-type LoginSchema = z.infer<typeof formSchema>;
+type LoginSchema = z.infer<typeof formSchemaLogin>;
 
 const Login = ({
   setActiveState,
@@ -36,9 +35,10 @@ const Login = ({
     formState: { errors, isSubmitting },
     reset,
   } = useForm<LoginSchema>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchemaLogin),
   });
   const [show, setShow] = useState(false);
+  const router = useRouter();
 
   const onSubmit = async (data: LoginSchema) => {
     const loginData = {
@@ -49,12 +49,14 @@ const Login = ({
       variables: loginData,
     });
     if (response.data.Login.user) {
+      let AdminId = response.data.Login.user.id
       toast.success("Login Successful!");
       Cookies.set("refresh_token", response.data.Login.refreshToken);
       Cookies.set("access_token", response.data.Login.accessToken);
       setOpen(false);
       reset();
       window.location.reload();
+      router.push(`/admin/${AdminId}/Home`)
     } else {
       toast.error(response.data.Login.error.message);
     }

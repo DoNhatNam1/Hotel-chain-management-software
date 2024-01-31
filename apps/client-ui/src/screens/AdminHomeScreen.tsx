@@ -1,6 +1,7 @@
+import { AdminHomeScreenProps} from '@/types/admin'
 
-export const AdminHomeScreen = () => {
+export const AdminHomeScreen: React.FC<AdminHomeScreenProps> = ({ params }) => {
   return (
-    <div>AdminHomeScreen</div>
+    <div>AdminHomeScreen + {params.AdminId}</div>
   )
 }

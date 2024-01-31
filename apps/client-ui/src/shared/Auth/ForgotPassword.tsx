@@ -1,16 +1,15 @@
+'use client'
+
 import styles from "@/utils/style";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { FORGOT_PASSWORD } from "@/graphql/actions/forgot-password.action";
+import { formSchemaForgotPassword } from "@/lib/zod/formSchemaForgotPassword";
 
-const formSchema = z.object({
-  email: z.string().email(),
-});
-
-type ForgotPasswordSchema = z.infer<typeof formSchema>;
+type ForgotPasswordSchema = z.infer<typeof formSchemaForgotPassword>;
 
 const ForgotPassword = ({
   setActiveState,
@@ -25,7 +24,7 @@ const ForgotPassword = ({
     formState: { errors, isSubmitting },
     reset,
   } = useForm<ForgotPasswordSchema>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchemaForgotPassword),
   });
 
   const onSubmit = async (data: ForgotPasswordSchema) => {

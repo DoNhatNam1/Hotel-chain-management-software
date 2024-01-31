@@ -39,7 +39,7 @@ export const registerUser = async (userData: any) => {
       name: userData.name,
       email: userData.email,
       password: hashedPassword,
-      role: "User",
+      role: "Admin",
     },
   });
 
