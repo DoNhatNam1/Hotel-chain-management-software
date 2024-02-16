@@ -10,8 +10,8 @@ datasource db {
 model TbChiNhanh {
   id             String       @id @default(uuid())
   TenChiNhanh    String       @db.VarChar(255)
-  SDTChiNhanh    String       @db.VarChar(255)
-  DiaChiChiNhanh String       @db.VarChar(255)
+  SDTChiNhanh    String?       @db.VarChar(255)
+  DiaChiChiNhanh String?       @db.VarChar(255)
   KhachSan       TbKhachSan[]
   TaiKhoan       User[]
 }

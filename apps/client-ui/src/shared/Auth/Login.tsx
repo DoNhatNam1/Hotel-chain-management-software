@@ -4,7 +4,7 @@ import styles from "@/utils/style";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter  } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import {
   AiOutlineEye,
   AiOutlineEyeInvisible,
@@ -49,14 +49,16 @@ const Login = ({
       variables: loginData,
     });
     if (response.data.Login.user) {
-      let AdminId = response.data.Login.user.id
+      let UserId = response.data.Login.user.id
+      let UserRole = response.data.Login.user.role
       toast.success("Login Successful!");
       Cookies.set("refresh_token", response.data.Login.refreshToken);
       Cookies.set("access_token", response.data.Login.accessToken);
+      Cookies.set("user_id", UserId);
       setOpen(false);
       reset();
       window.location.reload();
-      router.push(`/admin/${AdminId}/Home`)
+      router.push(`/${UserRole}/Home`)
     } else {
       toast.error(response.data.Login.error.message);
     }
@@ -64,7 +66,7 @@ const Login = ({
 
   return (
     <div>
-      <h1 className={`${styles.title}`}>Login with Becodemy</h1>
+      <h1 className={`${styles.title}`}>Login with Welding Store</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label className={`${styles.label}`}>Enter your Email</label>
         <input

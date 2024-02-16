@@ -10,3 +10,6 @@ export const authOptions = {
   secret: process.env.NEXT_AUTH_SECRET,
 };
 
+
+
+

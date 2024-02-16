@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useMutation } from "@apollo/client";
 import { RESET_PASSWORD } from "@/graphql/actions/reset-password.action";
 import { formSchemaResetPassword } from "@/lib/zod/formSchemaResetPassword";
+import { useRouter } from 'next/navigation'
 
 type ResetPasswordSchema = z.infer<typeof formSchemaResetPassword>;
 
@@ -28,6 +29,7 @@ const ResetPassword = ({
   });
   const [show, setShow] = useState(false);
   const [confirmPasswordshow, setconfirmPasswordshow] = useState(false);
+  const router = useRouter();
 
   const onSubmit = async (data: ResetPasswordSchema): Promise<void> => {
     try {
@@ -38,6 +40,7 @@ const ResetPassword = ({
         },
       });
       toast.success("Password updated successfully!")
+      router.push('/')
     } catch (error: any) {
         toast.error(error.message);
     }

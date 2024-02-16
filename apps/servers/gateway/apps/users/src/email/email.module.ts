@@ -19,7 +19,7 @@ import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
           },
         },
         defaults: {
-          from: 'Becodemy',
+          from: 'Welding Store',
         },
         template: {
           dir: join(__dirname, '../../../../gateway/email-templates'),

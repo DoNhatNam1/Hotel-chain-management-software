@@ -213,7 +213,7 @@ export class UsersService {
       activationCode: resetPasswordUrl,
     });
 
-    return { message: `Your forgot password request succesful!` };
+    return { message: `Your forgot password request successful!` };
   }
 
   // reset password

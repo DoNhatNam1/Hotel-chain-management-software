@@ -14,8 +14,11 @@ import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { signOut, useSession } from "next-auth/react";
 import { registerUser } from "../actions/register-user";
+import { useRouter } from 'next/navigation'
+
 
 const ProfileDropDown = () => {
+  const router = useRouter();
   const [signedIn, setsignedIn] = useState(false);
   const [open, setOpen] = useState(false);
   const { user, loading } = useUser();
@@ -37,6 +40,7 @@ const ProfileDropDown = () => {
     } else {
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
+      Cookies.remove("user_id");
       toast.success("Log out successful!");
       window.location.reload();
     }
@@ -45,6 +49,14 @@ const ProfileDropDown = () => {
   const addUser = async (user: any) => {
     await registerUser(user);
   };
+
+  const handleOnNaviGate = () => {
+    if (user.id) {
+      router.push(`/${user.role}/Home`)
+    } else {
+      toast.error('Server error 500! Cannot go to profile page.');
+    }
+  }
 
   return (
     <div className="flex items-center gap-4">
@@ -64,10 +76,14 @@ const ProfileDropDown = () => {
                 {data?.user ? data.user.email : user.email}
               </p>
             </DropdownItem>
-            <DropdownItem key="settings">My Profile</DropdownItem>
-            <DropdownItem key="all_orders">All Orders</DropdownItem>
+            <DropdownItem key="settings">
+              <button type="button" onClick={handleOnNaviGate}>
+                My Dashboard
+              </button>
+            </DropdownItem>
+            <DropdownItem key="notification">Notification</DropdownItem>
             <DropdownItem key="team_settings">
-              Apply for seller account
+              Settings
             </DropdownItem>
             <DropdownItem
               key="logout"

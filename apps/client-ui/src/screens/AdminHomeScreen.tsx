@@ -1,7 +1,20 @@
-import { AdminHomeScreenProps} from '@/types/admin'
+"use server";
 
-export const AdminHomeScreen: React.FC<AdminHomeScreenProps> = ({ params }) => {
+import AdminNavItems from "@/components/AdminNavItems";
+import AdminBodyHome from "@/components/Layout/AdminBodyHome";
+
+import { cookies } from "next/headers";
+
+export const AdminHomeScreen = () => {
+  const cookieStore = cookies();
+  const Admin_id = cookieStore.get("user_id");
   return (
-    <div>AdminHomeScreen + {params.AdminId}</div>
-  )
-}
+    <>
+      <div className="w-full h-full bg-slate-200 flex">
+        {/* <Dashboard /> */}
+        <AdminNavItems />
+        <AdminBodyHome />
+      </div>
+    </>
+  );
+};
