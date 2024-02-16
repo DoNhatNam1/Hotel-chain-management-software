@@ -2,10 +2,28 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export default function middleware(req: NextRequest) {
-    let cookie = req.cookies.get('access_token')?.value;
-    let roles = ['Admin', 'PhucVu', 'LeTan', 'QLChiNhanh']; // Change to an array
-    if (!cookie && roles.includes(req.nextUrl.pathname.split('/')[1])) { // Check if the pathname is in the roles array
-        const absoluteURL = new URL("/warning", req.nextUrl.origin);
-        return NextResponse.rewrite(absoluteURL.toString());
-    }
+  let cookie = req.cookies.get("access_token")?.value;
+  let userRole = req.cookies.get("role")?.value ?? "defaultRole";
+  let roles = ["Admin", "PhucVu", "LeTan", "QLChiNhanh"];
+
+  function checkAccess(userRole: string, requestedRole: string): boolean {
+    const rolesOrder = ["", "PhucVu", "LeTan", "QLChiNhanh", "Admin"];
+    const userRoleIndex = rolesOrder.indexOf(userRole);
+    const requestedRoleIndex = rolesOrder.indexOf(requestedRole);
+    return (
+      userRoleIndex >= 0 &&
+      requestedRoleIndex >= 0 &&
+      userRoleIndex < requestedRoleIndex
+    );
+  }
+
+  if (!cookie && roles.includes(req.nextUrl.pathname.split("/")[1])) {
+    const absoluteURL = new URL("/warning", req.nextUrl.origin);
+    return NextResponse.rewrite(absoluteURL.toString());
+  }
+
+  if (cookie && checkAccess(userRole, req.nextUrl.pathname.split("/")[1])) {
+    const absoluteURL = new URL("/warning", req.nextUrl.origin);
+    return NextResponse.rewrite(absoluteURL.toString());
+  }
 }

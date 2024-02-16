@@ -29,6 +29,7 @@ body {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
