@@ -9,11 +9,14 @@ datasource db {
 
 model TbChiNhanh {
   id             String       @id @default(uuid())
+  MaAdmin        String
   TenChiNhanh    String       @db.VarChar(255)
-  SDTChiNhanh    String?       @db.VarChar(255)
-  DiaChiChiNhanh String?       @db.VarChar(255)
+  SDTChiNhanh    String?      @db.VarChar(255)
+  DiaChiChiNhanh String?      @db.VarChar(255)
   KhachSan       TbKhachSan[]
-  TaiKhoan       User[]
+  TaiKhoanAdmin  User         @relation(fields: [MaAdmin], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_maadmin_foreign_key_idx")
+
+  @@index([MaAdmin], map: "MaAdmin")
 }
 
 model TbChiTietDichVuDatCho {
@@ -70,15 +73,55 @@ model TbDatCho {
 
 model TbDichVu {
   id                  String                  @id @default(uuid())
+  MaNhomDichVu        String
   TenDichVu           String                  @db.VarChar(255)
-  GiaCa               Decimal                 @db.Decimal(8, 2)
+  DonViTinh           String?                 @db.VarChar(255)
+  GiaVon              Decimal                 @db.Decimal(20, 2)
+  GiaBan              Decimal                 @db.Decimal(20, 2)
+  ThoiLuong           Int                     @db.Int
+  NhomDichVu          TbNhomDichVu            @relation(fields: [MaNhomDichVu], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbdichvu_manhomdichvu_foreign_key_idx")
   ChiTietDichVuDatCho TbChiTietDichVuDatCho[]
+  CacLinkAnhDichVu    TbCacLinkAnhDichVu[]
+
+  @@index([MaNhomDichVu], map: "MaNhomDichVu")
+}
+
+model TbNhomDichVu {
+  id            String     @id @default(uuid())
+  TenNhomDichVu String     @db.VarChar(255)
+  DichVu        TbDichVu[]
+}
+
+model TbHangHoa {
+  id                  String                @id @default(uuid())
+  MaNhomHangHoa       String
+  TenHangHoa          String                @db.VarChar(255)
+  DonViTinh           String?               @db.VarChar(255)
+  GiaVon              Decimal               @db.Decimal(20, 2)
+  GiaBan              Decimal               @db.Decimal(20, 2)
+  SLTonKho            Int                   @db.Int
+  DinhMucTonItNhat    Int?                  @db.Int
+  DinhMucTonNhieuNhat Int?                  @db.Int
+  TrongLuong          String?               @db.VarChar(255)
+  MoTa                String                @db.Text
+  GhiChu              String                @db.Text
+  ViTri               String?                @db.VarChar(255)
+  NhomHangHoa         TbNhomHangHoa         @relation(fields: [MaNhomHangHoa], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbhanghoa_manhomhanghoa_foreign_key_idx")
+  CacLinkAnhHangHoa   TbCacLinkAnhHangHoa[]
+
+  @@index([MaNhomHangHoa], map: "MaNhomHangHoa")
+}
+
+model TbNhomHangHoa {
+  id             String      @id @default(uuid())
+  TenNhomHangHoa String      @db.VarChar(255)
+  HangHoa        TbHangHoa[]
 }
 
 model TbHoaDon {
   id                  String                       @id @default(uuid())
   MaDatCho            String
-  TongHoaDon          Decimal                      @db.Decimal(8, 2)
+  TongHoaDon          Decimal                      @db.Decimal(20, 2)
   NgayThanhToan       DateTime                     @default(now()) @db.Timestamp(0)
   PhuongThucThanhToan tbhoadon_PhuongThucThanhToan
   DatCho              TbDatCho                     @relation(fields: [MaDatCho], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbhoadon_madatcho_foreign_key_idx")
@@ -99,27 +142,39 @@ model TbKhachHang {
 }
 
 model TbKhachSan {
-  id             String       @id @default(uuid())
-  MaNhaCungCap   String
-  MaChiNhanh     String
-  TenKhachSan    String       @db.VarChar(255)
-  DiaChiKhachSan String       @db.VarChar(255)
-  SDTKhachSan    String       @db.VarChar(255)
-  EmailKhachSan  String       @unique(map: "tbkhachsan_emailks_unique") @db.VarChar(255)
-  TaiKhoan       User[]
-  Phong          TbPhong[]
-  DanhGia        TbDanhGia[]
-  NhaCungCap     TbNhaCungCap @relation(fields: [MaNhaCungCap], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbkhachsan_manhacungcap_foreign_key_idx")
-  ChiNhanh       TbChiNhanh   @relation(fields: [MaChiNhanh], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbkhachsan_machinhanh_foreign_key_idx")
+  id                        String                        @id @default(uuid())
+  MaNhaCungCap              String?
+  MaChiNhanh                String
+  TenKhachSan               String                        @db.VarChar(255)
+  DiaChiKhachSan            String?                        @db.VarChar(255)
+  SDTKhachSan               String?                        @db.VarChar(255)
+  EmailKhachSan             String?                        @unique(map: "tbkhachsan_emailks_unique") @db.VarChar(255)
+  TaiKhoanSub               SubUser[]
+  Phong                     TbPhong[]
+  DanhGia                   TbDanhGia[]
+  ChiTietNhaCungCapKhachSan TbChiTietNhaCungCapKhachSan[]
+  ChiNhanh                  TbChiNhanh                    @relation(fields: [MaChiNhanh], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbkhachsan_machinhanh_foreign_key_idx")
 
   @@index([MaNhaCungCap], map: "MaNhaCungCap")
   @@index([MaChiNhanh], map: "MaChiNhanh")
 }
 
+model TbChiTietNhaCungCapKhachSan {
+  id           String       @id @default(uuid())
+  MaNhaCungCap String
+  MaKhachSan   String
+  NhaCungCap   TbNhaCungCap @relation(fields: [MaNhaCungCap], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbchitietnhacungcapkhachsan_manhacungcap_foregin_key_idx")
+  KhachSan     TbKhachSan   @relation(fields: [MaKhachSan], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbchitietnhacungcapkhachsan_makhachsan_foregin_key_idx")
+
+  @@index([MaNhaCungCap], map: "MaNhaCungCap")
+  @@index([MaKhachSan], map: "MaKhachSan")
+}
+
+
 model TbKhuyenMai {
   id               String               @id @default(uuid())
   TenKhuyenMai     String               @db.VarChar(255)
-  MucGiamGia       Decimal              @db.Decimal(8, 2)
+  MucGiamGia       Decimal              @db.Decimal(20, 2)
   NgayBatDau       DateTime             @db.Date
   NgayKetThuc      DateTime             @db.Date
   ChiTietKhuyenMai TbChiTietKhuyenMai[]
@@ -138,40 +193,87 @@ model TbChiTietKhuyenMai {
 }
 
 model TbLoaiPhong {
-  id           String    @id @default(uuid())
-  TenLoaiPhong String    @db.VarChar(255)
-  MoTa         String    @db.Text
-  GiaCa        Decimal   @db.Decimal(8, 2)
-  Phong        TbPhong[]
+  id                  String                  @id @default(uuid())
+  TenLoaiPhong        String                  @db.VarChar(255)
+  GiaTheoGio          Decimal                 @db.Decimal(20, 2)
+  GiaTheoNgay         Decimal                 @db.Decimal(20, 2)
+  CacLinkAnhLoaiPhong TbCacLinkAnhLoaiPhong[]
+  Phong               TbPhong[]
+}
+
+model TbCacLinkAnhLoaiPhong {
+  id          String      @id @default(uuid())
+  MaLoaiPhong String
+  LinkAnh     String      @db.Text
+  LoaiPhong   TbLoaiPhong @relation(fields: [MaLoaiPhong], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbcaclinkanh_maloaiphong_foreign_key_idx")
+
+  @@index([MaLoaiPhong], map: "MaLoaiPhong")
+}
+
+model TbCacLinkAnhDichVu {
+  id       String   @id @default(uuid())
+  MaDichVu String
+  LinkAnh  String   @db.Text
+  DichVu   TbDichVu @relation(fields: [MaDichVu], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbcaclinkanhhanghoa_madichvu_foreign_key_idx")
+
+  @@index([MaDichVu], map: "MaDichVu")
+}
+
+model TbCacLinkAnhHangHoa {
+  id        String    @id @default(uuid())
+  MaHangHoa String
+  LinkAnh   String    @db.Text
+  HangHoa   TbHangHoa @relation(fields: [MaHangHoa], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbcaclinkanhhanghoa_mahanghoa_foreign_key_idx")
+
+  @@index([MaHangHoa], map: "MaHangHoa")
+}
+
+model TbCacLinkAnhPhong {
+  id      String  @id @default(uuid())
+  MaPhong String
+  LinkAnh String  @db.Text
+  Phong   TbPhong @relation(fields: [MaPhong], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbcaclinkanhphong_maphong_foreign_key_idx")
+
+  @@index([MaPhong], map: "MaPhong")
 }
 
 model TbNhaCungCap {
-  id              String       @id @default(uuid())
-  TenNhaCungCap   String       @db.VarChar(255)
-  SDTNhaCungCap   String       @db.VarChar(255)
-  EmailNhaCungCap String       @unique(map: "tbnhacungcap_emailnhacungcap_unique") @db.VarChar(255)
-  KhachSan        TbKhachSan[]
+  id                        String                        @id @default(uuid())
+  TenNhaCungCap             String                        @db.VarChar(255)
+  SDTNhaCungCap             String                        @db.VarChar(255)
+  EmailNhaCungCap           String                        @unique(map: "tbnhacungcap_emailnhacungcap_unique") @db.VarChar(255)
+  ChiTietNhaCungCapKhachSan TbChiTietNhaCungCapKhachSan[]
 }
 
 model TbPhong {
   id                   String                   @id @default(uuid())
   MaLoaiPhong          String
   MaKhachSan           String
+  MaNhomKhuVucPhong    String
   TenPhong             String                   @db.VarChar(255)
-  Status               tbphong_Status
+  GhiChu               String?                  @db.Text
+  Status               tbphong_Status           @default(Active)
+  NhomKhuVucPhong      TbNhomKhuVucPhong        @relation(fields: [MaNhomKhuVucPhong], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbphong_manhomkhuvucphong_foreign_key_idx")
   LoaiPhong            TbLoaiPhong              @relation(fields: [MaLoaiPhong], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbphong_maloaiphong_foreign_key_idx")
   KhachSan             TbKhachSan               @relation(fields: [MaKhachSan], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbphong_makhachsan_foreign_key_idx")
   DatCho               TbDatCho[]
   ChiTietPhongTienNghi TbChiTietPhongTienNghi[]
+  CacLinkAnhPhong      TbCacLinkAnhPhong[]
 
   @@index([MaLoaiPhong], map: "MaLoaiPhong")
   @@index([MaKhachSan], map: "MaKhachSan")
+  @@index([MaNhomKhuVucPhong], map: "MaNhomKhuVucPhong")
+}
+
+model TbNhomKhuVucPhong {
+  id            String    @id @default(uuid())
+  TenNhomKhuVuc String    @db.VarChar(255)
+  GhiChu        String?   @db.Text
+  Phong         TbPhong[]
 }
 
 model User {
   id           String            @id @default(uuid())
-  MaChiNhanh   String?
-  MaKhachSan   String?
   name         String
   phone_number Float?
   address      String?
@@ -181,12 +283,31 @@ model User {
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
   role         tbtaikhoan_VaiTro @default(Admin)
-  ChiNhanh     TbChiNhanh?       @relation(fields: [MaChiNhanh], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbtaikhoan_mataikhoan_foreign_key_idx")
-  KhachSan     TbKhachSan?       @relation(fields: [MaKhachSan], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbtaikhoan_makhachsan_foreign_key_idx")
+  TaiKhoanCon  SubUser[]
+  ChiNhanh     TbChiNhanh[]
 
   @@unique([email, phone_number], name: "uniquee_email_phone_number")
-  @@index([MaChiNhanh], map: "MaChiNhanh")
+}
+
+model SubUser {
+  id           String               @id @default(uuid())
+  MaKhachSan   String?
+  MaAdmin      String
+  name         String
+  phone_number Float?
+  address      String?
+  password     String
+  email        String               @unique
+  subAvatar    SubAvatars?
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  role         tbtaikhoancon_VaiTro
+  TaiKhoan     User                 @relation(fields: [MaAdmin], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbtaikhoancon_maadmin_foreign_key_idx")
+  KhachSan     TbKhachSan?          @relation(fields: [MaKhachSan], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbtaikhoancon_makhachsan_foreign_key_idx")
+
+  @@unique([email, phone_number], name: "uniquee_sub_email_phone_number")
   @@index([MaKhachSan], map: "MaKhachSan")
+  @@index([MaAdmin], map: "MaAdmin")
 }
 
 model TbTienNghi {
@@ -204,6 +325,14 @@ model Avatars {
   userId    String @unique
 }
 
+model SubAvatars {
+  id        String  @id @default(uuid())
+  public_id String
+  url       String
+  sub_user  SubUser @relation(fields: [subUserId], references: [id])
+  subUserId String  @unique
+}
+
 enum tbdanhgia_XepHang {
   Zero
   One
@@ -214,8 +343,8 @@ enum tbdanhgia_XepHang {
 }
 
 enum tbphong_Status {
-  HasRoom
-  NoRoom
+  Active
+  Paused
 }
 
 enum tbhoadon_PhuongThucThanhToan {
@@ -226,7 +355,9 @@ enum tbhoadon_PhuongThucThanhToan {
 
 enum tbtaikhoan_VaiTro {
   Admin
-  QLChiNhanh
+}
+
+enum tbtaikhoancon_VaiTro {
   LeTan
   PhucVu
 }

@@ -8,7 +8,7 @@ const AdminNavItems = () => {
   return (
     <nav className="basis-1/6 bg-blue-300">
       <div className="flex flex-col">
-        <div className="fixed pt-5 pl-5 z-40 bg-blue-300">
+        <div className="fixed pt-5 pl-5 z-20 bg-blue-300">
           <Link href="/">
             <Image 
               src={Logo} 

@@ -1,7 +1,7 @@
 "use server";
 
-import AdminAddRoomClassButtonComponent from "@/components/Buttons/AdminAddRoomClassButtonComponent";
-import AdminRoomClassTableComponent from "@/components/Tables/AdminRoomClassTableComponent";
+import AdminAddRoomClassButtonComponent from "@/components/Buttons/Rooms/AdminAddRoomClassButtonComponent";
+import AdminRoomClassTableComponent from "@/components/Tables/Rooms/AdminRoomClassTableComponent";
 import AdminHeader from "@/components/Layout/AdminHeader";
 
 const RoomBody = () => {
@@ -9,7 +9,7 @@ const RoomBody = () => {
     <>
       <div className="basis-5/6">
         <AdminHeader />
-        <div className="h-screen">
+        <div className="h-auto">
           <div className="mx-10 mt-32 mb-9 z-0 flex justify-between">
             <h2 className="text-gray-700 font-semibold text-xl">
               Hạng phòng/Phòng

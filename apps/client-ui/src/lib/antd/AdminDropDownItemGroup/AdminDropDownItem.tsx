@@ -18,6 +18,11 @@ const AdminDropDownItem = () => {
     router.push("/Admin/RoomClass");
   };
 
+  const handleNavigate2 = (e: any) => {
+    e.preventDefault;
+    router.push("/Admin/PriceBook");
+  };
+
   const handleNavigate4 = (e: any) => {
     e.preventDefault;
     router.push("/Admin/Employees");
@@ -37,7 +42,7 @@ const AdminDropDownItem = () => {
       type: "divider",
     },
     {
-      label: <button onClick={handleNavigate1}>Thiết lập giá</button>,
+      label: <button onClick={handleNavigate2}>Thiết lập giá</button>,
       key: "1",
     },
   ];

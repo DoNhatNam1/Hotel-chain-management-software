@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Avatar,
   Dropdown,
@@ -34,16 +35,17 @@ const ProfileDropDown = () => {
     }
   }, [loading, user, open, data]);
 
-  const logoutHandler = () => {
-    if (data?.user) {
+
+   const logoutHandler = () => {
       signOut();
-    } else {
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
       Cookies.remove("user_id");
+      Cookies.remove("role");
+      Cookies.remove("chi_nhanh_id");
+      Cookies.remove("khach_san_id");
       toast.success("Log out successful!");
-      window.location.reload();
-    }
+      // window.location.reload();
   };
 
   const addUser = async (user: any) => {
@@ -51,11 +53,8 @@ const ProfileDropDown = () => {
   };
 
   const handleOnNaviGate = () => {
-    if (user.id) {
-      router.push(`/${user.role}/Home`)
-    } else {
-      toast.error('Server error 500! Cannot go to profile page.');
-    }
+    let navigate = Cookies.get('role')
+      router.push(`/${navigate}/Home`)
   }
 
   return (
@@ -77,15 +76,28 @@ const ProfileDropDown = () => {
               </p>
             </DropdownItem>
             <DropdownItem key="settings">
-              <button type="button" onClick={handleOnNaviGate}>
+              <button 
+              className="w-full flex flex-start"
+              type="button" 
+              onClick={handleOnNaviGate}
+              >
                 My Dashboard
               </button>
             </DropdownItem>
-            <DropdownItem key="notification">Notification</DropdownItem>
+            <DropdownItem key="notification">
+            <button 
+              className="w-full flex flex-start"
+              type="button" 
+              onClick={handleOnNaviGate}
+              >
+              Notification
+              </button>
+              </DropdownItem>
             <DropdownItem key="team_settings">
               Settings
             </DropdownItem>
             <DropdownItem
+              className="w-full flex flex-start"
               key="logout"
               color="danger"
               onClick={() => logoutHandler()}

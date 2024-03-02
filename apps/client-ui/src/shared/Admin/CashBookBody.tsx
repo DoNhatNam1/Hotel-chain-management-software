@@ -8,7 +8,7 @@ const CashBookBody = () => {
   return (
     <div className="basis-5/6 bg-gray-200">
     <AdminHeader />
-    <div className="h-screen ">
+    <div className="h-auto">
       <AdminCashBookBodyContentComponents/>
     </div>
   </div>

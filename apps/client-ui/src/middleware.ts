@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export default function middleware(req: NextRequest) {
-  let cookie = req.cookies.get("access_token")?.value;
+export default async function middleware(req: NextRequest) {
+  let cookie = req.cookies.get("user_id")?.value;
   let userRole = req.cookies.get("role")?.value ?? "defaultRole";
-  let roles = ["Admin", "PhucVu", "LeTan", "QLChiNhanh"];
+  let roles = ["Admin", "PhucVu", "LeTan"];
 
   function checkAccess(userRole: string, requestedRole: string): boolean {
-    const rolesOrder = ["", "PhucVu", "LeTan", "QLChiNhanh", "Admin"];
+    const rolesOrder = ["", "PhucVu", "LeTan", "Admin"];
     const userRoleIndex = rolesOrder.indexOf(userRole);
     const requestedRoleIndex = rolesOrder.indexOf(requestedRole);
     return (

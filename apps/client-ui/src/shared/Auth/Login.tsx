@@ -17,6 +17,7 @@ import { LOGIN_USER } from "@/graphql/actions/login.action";
 import Cookies from "js-cookie";
 import { signIn } from "next-auth/react"
 import { formSchemaLogin } from "@/lib/zod/formSchemaLogin";
+import { getByIdChiNhanh } from "@/actions/get-by-id-chi-nhanh";
 
 type LoginSchema = z.infer<typeof formSchemaLogin>;
 
@@ -48,9 +49,20 @@ const Login = ({
     const response = await Login({
       variables: loginData,
     });
+    
+    
     if (response.data.Login.user) {
       let UserId = response.data.Login.user.id
       let UserRole = response.data.Login.user.role
+      let UserEmail = response.data.Login.user.email
+      let UserChiNhanIdAndKhachSanId = await getByIdChiNhanh(UserEmail)
+
+      if(UserChiNhanIdAndKhachSanId){
+        let userIdChiNhanh = UserChiNhanIdAndKhachSanId.ChiNhanh[0].id;
+        let userIdKhachSan = UserChiNhanIdAndKhachSanId.ChiNhanh[0].KhachSan[0].id;
+        Cookies.set("chi_nhanh_id", userIdChiNhanh);
+        Cookies.set("khach_san_id", userIdKhachSan);
+      }
       toast.success("Login Successful!");
       Cookies.set("refresh_token", response.data.Login.refreshToken);
       Cookies.set("access_token", response.data.Login.accessToken);

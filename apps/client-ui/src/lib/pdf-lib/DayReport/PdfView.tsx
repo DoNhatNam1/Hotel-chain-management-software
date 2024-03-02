@@ -8,38 +8,38 @@ import "tailwindcss/tailwind.css";
 const PdfView: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const products: DayReportData[] = [
-    {
-      id: "3132334d",
-      Cash: 300,
-      Transfer: "Âm nhạc",
-      CreditCard: 50,
-      Voucher: "Dây đàn guitar chất lượng cao",
-    },
-    {
-      id: "3132334dee",
-      Cash: 200,
-      Transfer: "Category 2",
-      CreditCard: 30,
-      Voucher: "Description 2",
-    },
-    {
-      id: "3132334da",
-      Cash: 150,
-      Transfer: "Category 3",
-      CreditCard: 20,
-      Voucher: "Description 3",
-    },
-    {
-      id: "3132334dd",
-      Cash: 100,
-      Transfer: "Category 4",
-      CreditCard: 10,
-      Voucher: "Description 4",
-    },
-  ];
-
   useEffect(() => {
+    const products: DayReportData[] = [
+      {
+        id: "3132334d",
+        Cash: 300,
+        Transfer: "Âm nhạc",
+        CreditCard: 50,
+        Voucher: "Dây đàn guitar chất lượng cao",
+      },
+      {
+        id: "3132334dee",
+        Cash: 200,
+        Transfer: "Category 2",
+        CreditCard: 30,
+        Voucher: "Description 2",
+      },
+      {
+        id: "3132334da",
+        Cash: 150,
+        Transfer: "Category 3",
+        CreditCard: 20,
+        Voucher: "Description 3",
+      },
+      {
+        id: "3132334dd",
+        Cash: 100,
+        Transfer: "Category 4",
+        CreditCard: 10,
+        Voucher: "Description 4",
+      },
+    ];
+    
     const container = containerRef.current;
   
     const runPdfProcess = async () => {

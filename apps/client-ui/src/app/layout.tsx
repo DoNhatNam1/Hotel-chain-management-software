@@ -23,9 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body 
-      className={`${inter.variable}`} 
-      >
+      <body className={`${inter.variable}`}>
         <Providers>{children}</Providers>
         <Toaster position="top-center" reverseOrder={false} />
       </body>

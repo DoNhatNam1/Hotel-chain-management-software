@@ -25,12 +25,6 @@ export class User {
   name: string;
 
   @Field()
-  MaKhachSan: string;
-
-  @Field()
-  MaChiNhanh: string;
-
-  @Field()
   email: string;
 
   @Field()

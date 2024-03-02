@@ -8,7 +8,7 @@ const PurchaseOrderBody = () => {
   return (
     <div className="basis-5/6 bg-gray-200">
     <AdminHeader />
-    <div className="h-screen">
+    <div className="h-auto">
       <div className="mx-10 mt-32 mb-9 z-0 flex justify-between">
         <h2 className="text-gray-700 font-semibold text-xl">
           Phiếu nhập hàng

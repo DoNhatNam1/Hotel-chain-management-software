@@ -41,6 +41,10 @@ React.useEffect(()=>{
   
 },[isOnline])
 
+React.useEffect(()=>{
+  
+})
+
   const menuItems = [
     {
       label: "Giao diện lễ tân",

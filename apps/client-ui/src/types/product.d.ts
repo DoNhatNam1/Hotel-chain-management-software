@@ -20,3 +20,8 @@ export type SaleByProductData = {
   ValuePaid: number | string;
   NetRevenue: number | string;
 };
+
+export type TbCacLinkAnhPhongCreateInput = {
+  MaPhong: string;
+  LinkAnh: string;
+}

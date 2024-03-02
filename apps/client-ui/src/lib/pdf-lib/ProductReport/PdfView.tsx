@@ -8,46 +8,46 @@ import "tailwindcss/tailwind.css";
 const PdfView: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const products: SaleByProductData[] = [
-    {
-      id: "311312415fdfsdf",
-      ProductName: "Sting",
-      ProductsBeenSell: "Âm nhạc",
-      Revenue: 50,
-      AmountToPay: "Dây đàn guitar chất lượng cao",
-      ValuePaid: 500,
-      NetRevenue: 500,
-    },
-    {
-      id: "ad346f",
-      ProductName: "Coca",
-      ProductsBeenSell: 2,
-      Revenue: 30,
-      AmountToPay: 6,
-      ValuePaid: 0,
-      NetRevenue: 0,
-    },
-    {
-      id: "66644hgdssda",
-      ProductName: "Pepsi",
-      ProductsBeenSell: 4,
-      Revenue: 20,
-      AmountToPay: 1,
-      ValuePaid: 0,
-      NetRevenue: 0,
-    },
-    {
-      id: "34gaaddddda",
-      ProductName: "7Up",
-      ProductsBeenSell: "Category 4",
-      Revenue: 10,
-      AmountToPay: 2,
-      ValuePaid: 0,
-      NetRevenue: 0,
-    },
-  ];
-
   useEffect(() => {
+    const products: SaleByProductData[] = [
+      {
+        id: "311312415fdfsdf",
+        ProductName: "Sting",
+        ProductsBeenSell: "Âm nhạc",
+        Revenue: 50,
+        AmountToPay: "Dây đàn guitar chất lượng cao",
+        ValuePaid: 500,
+        NetRevenue: 500,
+      },
+      {
+        id: "ad346f",
+        ProductName: "Coca",
+        ProductsBeenSell: 2,
+        Revenue: 30,
+        AmountToPay: 6,
+        ValuePaid: 0,
+        NetRevenue: 0,
+      },
+      {
+        id: "66644hgdssda",
+        ProductName: "Pepsi",
+        ProductsBeenSell: 4,
+        Revenue: 20,
+        AmountToPay: 1,
+        ValuePaid: 0,
+        NetRevenue: 0,
+      },
+      {
+        id: "34gaaddddda",
+        ProductName: "7Up",
+        ProductsBeenSell: "Category 4",
+        Revenue: 10,
+        AmountToPay: 2,
+        ValuePaid: 0,
+        NetRevenue: 0,
+      },
+    ];
+
     const container = containerRef.current;
   
     const runPdfProcess = async () => {
