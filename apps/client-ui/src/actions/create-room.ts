@@ -29,10 +29,8 @@ export default async function createRoom(RoomData: any) {
                 const room = await prisma.tbPhong.create({
                     data: {
                         TenPhong: RoomData.TenPhong,
-                        MaKhachSan: RoomData.MaKhachSan,
                         MaNhomKhuVucPhong: RoomData.MaNhomKhuVucPhong,
                         MaLoaiPhong: RoomData.MaLoaiPhong,
-                        Status: "Active",
                         GhiChu: RoomData?.GhiChu,
                         CacLinkAnhPhong: {
                             create: RoomData.CacLinkAnhPhong.map((link: string) => ({

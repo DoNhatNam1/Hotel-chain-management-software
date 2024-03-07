@@ -17,7 +17,7 @@ import { formSchemaCreateRoomClasstype } from '@/lib/zod/formSchemaCreateRoomCla
 import { createRoomClass } from '@/actions/create-room-class'
 import AdminAddRoomSubFormComponent from '../../Forms/Rooms/AdminAddRoomSubFormComponent'
 import AdminAddRoomFormComponent from '@/components/Forms/Rooms/AdminAddRoomFormComponent'
-import  getByIdChiNhanh  from '@/actions/get-all-room-sub'
+import  getAllRoomSubByUserId  from '@/actions/get-all-room-sub'
 import  getAllRoomClass  from '@/actions/get-all-room-class'
 import getAllRoomHotel from '@/actions/get-all-room-hotel'
 
@@ -69,7 +69,7 @@ const AdminAddRoomClassButtonComponent: React.FC = () => {
     let isApiSubscribed = true;
     if (isApiSubscribed) {
       const fetchDataChiNhanh = async () => {
-        const dataChiNhanh = await getByIdChiNhanh();
+        const dataChiNhanh = await getAllRoomSubByUserId();
         setRoomSub(dataChiNhanh as unknown as GetRoomSubTypeSchema[]);
       };
       const fetchDataRoomClass = async () => {

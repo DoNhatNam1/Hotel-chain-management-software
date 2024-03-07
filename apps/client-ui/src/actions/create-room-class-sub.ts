@@ -15,6 +15,7 @@ export const createRoomClassSub = async (RoomClassSubData: any) => {
         }
     });
 
+
     // Nếu bản ghi tồn tại, ném một lỗi với thông điệp chứa TenNhomKhuVuc của bản ghi đó
     if (roomClassSubIdExit) {
         throw new Error(`Khu vực ${roomClassSubIdExit.TenNhomKhuVuc} đã tồn tại rồi!`);

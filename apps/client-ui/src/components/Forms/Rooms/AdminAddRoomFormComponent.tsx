@@ -14,10 +14,10 @@ import { useForm } from 'react-hook-form'
 import { IoMdSave } from 'react-icons/io'
 import { FaPlus } from 'react-icons/fa6'
 import { MdBlock } from 'react-icons/md'
-import { getByIdRoomClassPrice } from '@/actions/get-by-id-room-class'
-import { getByIdRoomSub } from '@/actions/get-by-id-room-sub'
+import { getByNameRoomClassPrice } from '@/actions/get-by-name-room-class'
+import { getByNameRoomSub } from '@/actions/get-by-name-room-sub'
 import  createRoom  from '@/actions/create-room'
-import { getByIdRoomHotel } from '@/actions/get-by-id-khach-san'
+import { getByNameRoomHotel } from '@/actions/get-by-name-khach-san'
 
 type CreateRoomTypeSchema = z.infer<typeof formSchemaCreateRoomtype>
 
@@ -104,7 +104,7 @@ const AdminAddRoomFormComponent: any = ({
 
   //  OnChangeGroup
   const onChangeSelectRoomClass = async (value: string) => {
-    let data = await getByIdRoomClassPrice(value)
+    let data = await getByNameRoomClassPrice(value)
     if (data) {
       setValueInputRoomClass(data?.id)
       setGiaTheoGio(data?.GiaTheoGio.toString())
@@ -113,7 +113,7 @@ const AdminAddRoomFormComponent: any = ({
   }
 
   const onChangeSelectRoomSub = async (value: string) => {
-    let data = await getByIdRoomSub(value)
+    let data = await getByNameRoomSub(value)
 
     if (data) {
       setKhuVuc(data?.id)
@@ -121,7 +121,7 @@ const AdminAddRoomFormComponent: any = ({
   }
 
   const onChangeSelectRoomHotel = async (value: string) => {
-    let data = await getByIdRoomHotel(value)
+    let data = await getByNameRoomHotel(value)
 
     if (data) {
       setHotel(data?.id)

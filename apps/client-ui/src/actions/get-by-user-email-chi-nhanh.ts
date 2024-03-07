@@ -2,9 +2,9 @@
 import prisma from "../lib/prismaDb";
 
 // Hàm lấy thông tin Chi Nhánh và Khách Sạn dựa trên email người dùng
-export const getByIdChiNhanh = async (userEmail: any) => {
+export const getByUserEmailChiNhanh = async (userEmail: any) => {
 
-    const UserChiNhanIdAndKhachSanId = await prisma.user.findFirst({
+    const getByUserEmailChiNhanhQuery = await prisma.user.findFirst({
         where: {
           email: userEmail.email,
         },
@@ -27,5 +27,5 @@ export const getByIdChiNhanh = async (userEmail: any) => {
         }
       });
 
-    return UserChiNhanIdAndKhachSanId;  // Trả về thông tin Chi Nhánh và Khách Sạn
+    return getByUserEmailChiNhanhQuery;  // Trả về thông tin Chi Nhánh và Khách Sạn
 }

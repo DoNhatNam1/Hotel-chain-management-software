@@ -2,9 +2,9 @@
 import prisma from "../lib/prismaDb";
 
 // Hàm lấy thông tin phòng con dựa trên tên khu vực
-export async function getByIdRoomSub(roomSubName: any) {
+export async function getByNameRoomSub(roomSubName: any) {
 
-    const UserChiNhanIdAndKhachSanId = await prisma.tbNhomKhuVucPhong.findFirst({
+    const UserChiNhanNameAndKhachSanNameQuery = await prisma.tbNhomKhuVucPhong.findFirst({
         where: {
           TenNhomKhuVuc: roomSubName,
         },
@@ -13,5 +13,5 @@ export async function getByIdRoomSub(roomSubName: any) {
         }
       });
 
-    return UserChiNhanIdAndKhachSanId;  // Trả về thông tin phòng con
+    return UserChiNhanNameAndKhachSanNameQuery;  // Trả về thông tin phòng con
 }

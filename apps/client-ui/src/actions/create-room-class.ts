@@ -4,6 +4,8 @@ import prisma from "../lib/prismaDb";  // Import module prisma từ đường d�
 import { cookies } from 'next/headers';  // Import cookies từ 'next/headers'
 
 export const createRoomClass = async (RoomClassData: any) => {
+    const admin_id = cookies().get('user_id')?.value
+    const khach_san = cookies().get('khach_san')?.value
     // Tìm kiếm bản ghi trong bảng tbLoaiPhong dựa trên id từ RoomClassData
     const roomClassIdExit = await prisma.tbLoaiPhong.findFirst({
         where: {
@@ -39,6 +41,7 @@ export const createRoomClass = async (RoomClassData: any) => {
             const roomClass = await prisma.tbLoaiPhong.create({
                 data: {
                     id: RoomClassData.MaLoaiPhong,
+                    MaKhachSan: khach_san!,
                     TenLoaiPhong: RoomClassData.TenLoaiPhong,
                     GiaTheoGio: RoomClassData.GiaTheoGio,
                     GiaTheoNgay: RoomClassData.GiaTheoNgay,
@@ -60,6 +63,7 @@ export const createRoomClass = async (RoomClassData: any) => {
             const roomClass = await prisma.tbLoaiPhong.create({
                 data: {
                     TenLoaiPhong: RoomClassData.TenLoaiPhong,
+                    MaKhachSan: khach_san!,
                     GiaTheoGio: RoomClassData.GiaTheoGio,
                     GiaTheoNgay: RoomClassData.GiaTheoNgay,
                     CacLinkAnhLoaiPhong: {

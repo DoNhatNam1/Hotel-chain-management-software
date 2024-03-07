@@ -14,34 +14,14 @@ CREATE TABLE `TbChiNhanh` (
 CREATE TABLE `TbChiTietDichVuDatCho` (
     `id` VARCHAR(191) NOT NULL,
     `MaDatCho` VARCHAR(191) NOT NULL,
-    `MaDichVu` VARCHAR(191) NOT NULL,
-    `MoTa` TEXT NOT NULL,
+    `MaDichVu` VARCHAR(191) NULL,
+    `MaHoaDon` VARCHAR(191) NULL,
+    `MoTa` TEXT NULL,
     `createAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
 
     INDEX `MaDatCho`(`MaDatCho`),
     INDEX `MaDichVu`(`MaDichVu`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `TbChiTietPhongTienNghi` (
-    `id` VARCHAR(191) NOT NULL,
-    `MaPhong` VARCHAR(191) NOT NULL,
-    `MaTienNghi` VARCHAR(191) NOT NULL,
-
-    INDEX `MaPhong`(`MaPhong`),
-    INDEX `MaTienNghi`(`MaTienNghi`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `TbDanhGia` (
-    `id` VARCHAR(191) NOT NULL,
-    `MaKhachSan` VARCHAR(191) NOT NULL,
-    `XepHang` ENUM('Zero', 'One', 'Two', 'Three', 'Four', 'Five') NOT NULL,
-    `BinhLuan` TEXT NOT NULL,
-
-    INDEX `MaKhachSan`(`MaKhachSan`),
+    INDEX `MaHoaDon`(`MaHoaDon`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -53,6 +33,12 @@ CREATE TABLE `TbDatCho` (
     `NgayDatCho` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `NgayNhanPhong` DATETIME(3) NOT NULL,
     `NgayTraPhong` DATETIME(3) NOT NULL,
+    `SLNguoiLonDiKem` INTEGER NOT NULL DEFAULT 1,
+    `SLTreEmDiKem` INTEGER NOT NULL DEFAULT 0,
+    `LoaiKhach` ENUM('KhachLe', 'KhachTheoNhom') NOT NULL DEFAULT 'KhachLe',
+    `StatusThongBao` ENUM('On', 'Off') NOT NULL DEFAULT 'On',
+    `createAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `updateAt` DATETIME(3) NOT NULL,
 
     INDEX `MaKH`(`MaKH`),
     INDEX `MaPhong`(`MaPhong`),
@@ -68,6 +54,9 @@ CREATE TABLE `TbDichVu` (
     `GiaVon` DECIMAL(20, 2) NOT NULL,
     `GiaBan` DECIMAL(20, 2) NOT NULL,
     `ThoiLuong` INTEGER NOT NULL,
+    `StatusThongBao` ENUM('On', 'Off') NOT NULL DEFAULT 'On',
+    `createAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `updateAt` DATETIME(3) NOT NULL,
 
     INDEX `MaNhomDichVu`(`MaNhomDichVu`),
     PRIMARY KEY (`id`)
@@ -76,8 +65,10 @@ CREATE TABLE `TbDichVu` (
 -- CreateTable
 CREATE TABLE `TbNhomDichVu` (
     `id` VARCHAR(191) NOT NULL,
+    `MaKhachSan` VARCHAR(191) NOT NULL,
     `TenNhomDichVu` VARCHAR(255) NOT NULL,
 
+    INDEX `MaKhachSan`(`MaKhachSan`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -87,37 +78,82 @@ CREATE TABLE `TbHangHoa` (
     `MaNhomHangHoa` VARCHAR(191) NOT NULL,
     `TenHangHoa` VARCHAR(255) NOT NULL,
     `DonViTinh` VARCHAR(255) NULL,
-    `GiaVon` DECIMAL(20, 2) NOT NULL,
-    `GiaBan` DECIMAL(20, 2) NOT NULL,
+    `GiaGocHangHoa` DECIMAL(20, 2) NOT NULL,
+    `GiaBanHangHoa` DECIMAL(20, 2) NOT NULL,
     `SLTonKho` INTEGER NOT NULL,
-    `DinhMucTonItNhat` INTEGER NULL,
-    `DinhMucTonNhieuNhat` INTEGER NULL,
+    `DinhMucTonItNhat` INTEGER NULL DEFAULT 0,
+    `DinhMucTonNhieuNhat` INTEGER NULL DEFAULT 999999999,
     `TrongLuong` VARCHAR(255) NULL,
-    `MoTa` TEXT NOT NULL,
-    `GhiChu` TEXT NOT NULL,
+    `MoTa` TEXT NULL,
+    `GhiChu` TEXT NULL,
     `ViTri` VARCHAR(255) NULL,
+    `StatusThongBao` ENUM('On', 'Off') NOT NULL DEFAULT 'On',
 
     INDEX `MaNhomHangHoa`(`MaNhomHangHoa`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `TbPhieuNhap` (
+    `id` VARCHAR(191) NOT NULL,
+    `MaKhachSan` VARCHAR(191) NOT NULL,
+    `MaNhaCungCap` VARCHAR(191) NULL,
+    `CacKhoanChiPhiPhatSinhHangHoa` DECIMAL(20, 2) NULL,
+    `TongTienCanTra` DECIMAL(20, 2) NOT NULL,
+    `TienDaTra` DECIMAL(20, 2) NOT NULL,
+    `Status` ENUM('PhieuTam', 'PhieuHoanThanh') NOT NULL DEFAULT 'PhieuTam',
+    `StatusThongBao` ENUM('On', 'Off') NOT NULL DEFAULT 'On',
+    `createAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `updateAt` DATETIME(3) NOT NULL,
+
+    INDEX `MaNhaCungCap`(`MaNhaCungCap`),
+    INDEX `MaKhachSan`(`MaKhachSan`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `TbChiTietNoiDungNhap` (
+    `id` VARCHAR(191) NOT NULL,
+    `MaHangHoa` VARCHAR(191) NOT NULL,
+    `MaPhieuNhap` VARCHAR(191) NOT NULL,
+    `ThanhTien` DECIMAL(20, 2) NOT NULL,
+    `SLNhap` INTEGER NOT NULL,
+    `GiamGia` DECIMAL(20, 2) NULL,
+    `createAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `updateAt` DATETIME(3) NOT NULL,
+
+    INDEX `MaHangHoa`(`MaHangHoa`),
+    INDEX `MaPhieuNhap`(`MaPhieuNhap`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `TbNhomHangHoa` (
     `id` VARCHAR(191) NOT NULL,
+    `MaKhachSan` VARCHAR(191) NOT NULL,
     `TenNhomHangHoa` VARCHAR(255) NOT NULL,
 
+    INDEX `MaKhachSan`(`MaKhachSan`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `TbHoaDon` (
     `id` VARCHAR(191) NOT NULL,
-    `MaDatCho` VARCHAR(191) NOT NULL,
-    `TongHoaDon` DECIMAL(20, 2) NOT NULL,
-    `NgayThanhToan` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-    `PhuongThucThanhToan` ENUM('TienMat', 'ChuyenKhoan', 'PhieuNo') NOT NULL,
+    `MaTaiKhoanSub` VARCHAR(191) NULL,
+    `MaKhachSan` VARCHAR(191) NOT NULL,
+    `TongHoaDon` DECIMAL(20, 2) NULL,
+    `KhachThanhToan` DECIMAL(20, 2) NULL,
+    `NgayThanhToan` TIMESTAMP(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `GhiChu` TEXT NULL,
+    `Status` ENUM('Ready', 'Done', 'Canncel') NOT NULL DEFAULT 'Ready',
+    `StatusThongBao` ENUM('On', 'Off') NOT NULL DEFAULT 'Off',
+    `createAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `updateAt` DATETIME(3) NOT NULL,
+    `PhuongThucThanhToan` ENUM('TienMat', 'ChuyenKhoan') NULL,
 
-    INDEX `MaDatCho`(`MaDatCho`),
+    INDEX `MaKhachSan`(`MaKhachSan`),
+    INDEX `MaTaiKhoanSub`(`MaTaiKhoanSub`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -127,8 +163,6 @@ CREATE TABLE `TbKhachHang` (
     `TenKH` VARCHAR(255) NULL,
     `SDTKH` VARCHAR(255) NULL,
     `EmailKH` VARCHAR(255) NOT NULL,
-    `TaiKhoanKH` VARCHAR(255) NOT NULL,
-    `MatKhauMaHoaKH` VARCHAR(255) NOT NULL,
     `createAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     `updateAt` DATETIME(3) NOT NULL,
 
@@ -139,7 +173,6 @@ CREATE TABLE `TbKhachHang` (
 -- CreateTable
 CREATE TABLE `TbKhachSan` (
     `id` VARCHAR(191) NOT NULL,
-    `MaNhaCungCap` VARCHAR(191) NULL,
     `MaChiNhanh` VARCHAR(191) NOT NULL,
     `TenKhachSan` VARCHAR(255) NOT NULL,
     `DiaChiKhachSan` VARCHAR(255) NULL,
@@ -147,48 +180,14 @@ CREATE TABLE `TbKhachSan` (
     `EmailKhachSan` VARCHAR(255) NULL,
 
     UNIQUE INDEX `tbkhachsan_emailks_unique`(`EmailKhachSan`),
-    INDEX `MaNhaCungCap`(`MaNhaCungCap`),
     INDEX `MaChiNhanh`(`MaChiNhanh`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `TbChiTietNhaCungCapKhachSan` (
-    `id` VARCHAR(191) NOT NULL,
-    `MaNhaCungCap` VARCHAR(191) NOT NULL,
-    `MaKhachSan` VARCHAR(191) NOT NULL,
-
-    INDEX `MaNhaCungCap`(`MaNhaCungCap`),
-    INDEX `MaKhachSan`(`MaKhachSan`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `TbKhuyenMai` (
-    `id` VARCHAR(191) NOT NULL,
-    `TenKhuyenMai` VARCHAR(255) NOT NULL,
-    `MucGiamGia` DECIMAL(20, 2) NOT NULL,
-    `NgayBatDau` DATE NOT NULL,
-    `NgayKetThuc` DATE NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `TbChiTietKhuyenMai` (
-    `id` VARCHAR(191) NOT NULL,
-    `MaKhuyenMai` VARCHAR(191) NULL,
-    `MaChiTietDichVuDatCho` VARCHAR(191) NULL,
-    `MoTa` TEXT NULL,
-
-    INDEX `MaKhuyenMai`(`MaKhuyenMai`),
-    INDEX `MaChiTietDichVuDatCho`(`MaChiTietDichVuDatCho`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `TbLoaiPhong` (
     `id` VARCHAR(191) NOT NULL,
+    `MaKhachSan` VARCHAR(191) NOT NULL,
     `TenLoaiPhong` VARCHAR(255) NOT NULL,
     `GiaTheoGio` DECIMAL(20, 2) NOT NULL,
     `GiaTheoNgay` DECIMAL(20, 2) NOT NULL,
@@ -251,14 +250,16 @@ CREATE TABLE `TbNhaCungCap` (
 CREATE TABLE `TbPhong` (
     `id` VARCHAR(191) NOT NULL,
     `MaLoaiPhong` VARCHAR(191) NOT NULL,
-    `MaKhachSan` VARCHAR(191) NOT NULL,
     `MaNhomKhuVucPhong` VARCHAR(191) NOT NULL,
     `TenPhong` VARCHAR(255) NOT NULL,
     `GhiChu` TEXT NULL,
-    `Status` ENUM('HasRoom', 'NoRoom') NOT NULL,
+    `Status` ENUM('Active', 'Paused') NOT NULL DEFAULT 'Active',
+    `StatusDatCho` ENUM('DangDonDep', 'PhongTrong', 'DangCoLichDat', 'DangSuDung') NOT NULL DEFAULT 'PhongTrong',
+    `StatusThongBao` ENUM('On', 'Off') NOT NULL DEFAULT 'On',
+    `createAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `updateAt` DATETIME(3) NOT NULL,
 
     INDEX `MaLoaiPhong`(`MaLoaiPhong`),
-    INDEX `MaKhachSan`(`MaKhachSan`),
     INDEX `MaNhomKhuVucPhong`(`MaNhomKhuVucPhong`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -266,9 +267,11 @@ CREATE TABLE `TbPhong` (
 -- CreateTable
 CREATE TABLE `TbNhomKhuVucPhong` (
     `id` VARCHAR(191) NOT NULL,
+    `MaKhachSan` VARCHAR(191) NOT NULL,
     `TenNhomKhuVuc` VARCHAR(255) NOT NULL,
     `GhiChu` TEXT NULL,
 
+    INDEX `MaKhachSan`(`MaKhachSan`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -293,7 +296,6 @@ CREATE TABLE `User` (
 CREATE TABLE `SubUser` (
     `id` VARCHAR(191) NOT NULL,
     `MaKhachSan` VARCHAR(191) NULL,
-    `MaAdmin` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `phone_number` DOUBLE NULL,
     `address` VARCHAR(191) NULL,
@@ -305,17 +307,7 @@ CREATE TABLE `SubUser` (
 
     UNIQUE INDEX `SubUser_email_key`(`email`),
     INDEX `MaKhachSan`(`MaKhachSan`),
-    INDEX `MaAdmin`(`MaAdmin`),
     UNIQUE INDEX `SubUser_email_phone_number_key`(`email`, `phone_number`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `TbTienNghi` (
-    `id` VARCHAR(191) NOT NULL,
-    `TenTienNghi` VARCHAR(255) NOT NULL,
-    `MoTa` TEXT NOT NULL,
-
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -351,13 +343,7 @@ ALTER TABLE `TbChiTietDichVuDatCho` ADD CONSTRAINT `tbchitietdichvudatcho_madatc
 ALTER TABLE `TbChiTietDichVuDatCho` ADD CONSTRAINT `tbchitietdichvudatcho_madichvu_foreign_key_idx` FOREIGN KEY (`MaDichVu`) REFERENCES `TbDichVu`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE `TbChiTietPhongTienNghi` ADD CONSTRAINT `tbchitietphongtiennghi_maphong_foreign_key_idx` FOREIGN KEY (`MaPhong`) REFERENCES `TbPhong`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE `TbChiTietPhongTienNghi` ADD CONSTRAINT `tbchitietphongtiennghi_matiennghi_foreign_key_idx` FOREIGN KEY (`MaTienNghi`) REFERENCES `TbTienNghi`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE `TbDanhGia` ADD CONSTRAINT `tbdanhgia_makhachsan_foreign_key_idx` FOREIGN KEY (`MaKhachSan`) REFERENCES `TbKhachSan`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `TbChiTietDichVuDatCho` ADD CONSTRAINT `tbchitietdichvudatcho_mahoadon_foreign_key_idx` FOREIGN KEY (`MaHoaDon`) REFERENCES `TbHoaDon`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE `TbDatCho` ADD CONSTRAINT `tbdatcho_makhachhang_foreign_key_idx` FOREIGN KEY (`MaKH`) REFERENCES `TbKhachHang`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -369,25 +355,34 @@ ALTER TABLE `TbDatCho` ADD CONSTRAINT `tbdatcho_makphong_foreign_key_idx` FOREIG
 ALTER TABLE `TbDichVu` ADD CONSTRAINT `tbdichvu_manhomdichvu_foreign_key_idx` FOREIGN KEY (`MaNhomDichVu`) REFERENCES `TbNhomDichVu`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
+ALTER TABLE `TbNhomDichVu` ADD CONSTRAINT `tbnhomdichvu_makhachsan_foreign_key_idx` FOREIGN KEY (`MaKhachSan`) REFERENCES `TbKhachSan`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
 ALTER TABLE `TbHangHoa` ADD CONSTRAINT `tbhanghoa_manhomhanghoa_foreign_key_idx` FOREIGN KEY (`MaNhomHangHoa`) REFERENCES `TbNhomHangHoa`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE `TbHoaDon` ADD CONSTRAINT `tbhoadon_madatcho_foreign_key_idx` FOREIGN KEY (`MaDatCho`) REFERENCES `TbDatCho`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `TbPhieuNhap` ADD CONSTRAINT `tbphieunhap_manhacungcap_foreign_key_idx` FOREIGN KEY (`MaNhaCungCap`) REFERENCES `TbNhaCungCap`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE `TbPhieuNhap` ADD CONSTRAINT `tbphieunhap_makhachsan_foreign_key_idx` FOREIGN KEY (`MaKhachSan`) REFERENCES `TbKhachSan`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE `TbChiTietNoiDungNhap` ADD CONSTRAINT `tbchitietnoidungphieunhap_mahanghoa_foreign_key_idx` FOREIGN KEY (`MaHangHoa`) REFERENCES `TbHangHoa`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE `TbChiTietNoiDungNhap` ADD CONSTRAINT `tbchitietnoidungphieunhap_maphieunhap_foreign_key_idx` FOREIGN KEY (`MaPhieuNhap`) REFERENCES `TbPhieuNhap`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE `TbNhomHangHoa` ADD CONSTRAINT `tbnhomhanghoa_makhachsan_foreign_key_idx` FOREIGN KEY (`MaKhachSan`) REFERENCES `TbKhachSan`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE `TbHoaDon` ADD CONSTRAINT `tbhoadon_makhachsan_foreign_key_idx` FOREIGN KEY (`MaKhachSan`) REFERENCES `TbKhachSan`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE `TbHoaDon` ADD CONSTRAINT `tbhoadon_mataikhoansub_foreign_key_idx` FOREIGN KEY (`MaTaiKhoanSub`) REFERENCES `SubUser`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE `TbKhachSan` ADD CONSTRAINT `tbkhachsan_machinhanh_foreign_key_idx` FOREIGN KEY (`MaChiNhanh`) REFERENCES `TbChiNhanh`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE `TbChiTietNhaCungCapKhachSan` ADD CONSTRAINT `tbchitietnhacungcapkhachsan_manhacungcap_foregin_key_idx` FOREIGN KEY (`MaNhaCungCap`) REFERENCES `TbNhaCungCap`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE `TbChiTietNhaCungCapKhachSan` ADD CONSTRAINT `tbchitietnhacungcapkhachsan_makhachsan_foregin_key_idx` FOREIGN KEY (`MaKhachSan`) REFERENCES `TbKhachSan`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE `TbChiTietKhuyenMai` ADD CONSTRAINT `tbchitietkhuyenmai_makhuyenmai_foregin_key_idx` FOREIGN KEY (`MaKhuyenMai`) REFERENCES `TbKhuyenMai`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE `TbChiTietKhuyenMai` ADD CONSTRAINT `tbchitietkhuyenmai_machitietdichvudatcho_foregin_key_idx` FOREIGN KEY (`MaChiTietDichVuDatCho`) REFERENCES `TbChiTietDichVuDatCho`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE `TbCacLinkAnhLoaiPhong` ADD CONSTRAINT `tbcaclinkanh_maloaiphong_foreign_key_idx` FOREIGN KEY (`MaLoaiPhong`) REFERENCES `TbLoaiPhong`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -408,10 +403,7 @@ ALTER TABLE `TbPhong` ADD CONSTRAINT `tbphong_manhomkhuvucphong_foreign_key_idx`
 ALTER TABLE `TbPhong` ADD CONSTRAINT `tbphong_maloaiphong_foreign_key_idx` FOREIGN KEY (`MaLoaiPhong`) REFERENCES `TbLoaiPhong`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE `TbPhong` ADD CONSTRAINT `tbphong_makhachsan_foreign_key_idx` FOREIGN KEY (`MaKhachSan`) REFERENCES `TbKhachSan`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE `SubUser` ADD CONSTRAINT `tbtaikhoancon_maadmin_foreign_key_idx` FOREIGN KEY (`MaAdmin`) REFERENCES `User`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `TbNhomKhuVucPhong` ADD CONSTRAINT `tbnhomkhuvucphong_makhachsan_foreign_key_idx` FOREIGN KEY (`MaKhachSan`) REFERENCES `TbKhachSan`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE `SubUser` ADD CONSTRAINT `tbtaikhoancon_makhachsan_foreign_key_idx` FOREIGN KEY (`MaKhachSan`) REFERENCES `TbKhachSan`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;

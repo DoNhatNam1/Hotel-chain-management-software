@@ -2,10 +2,10 @@
 import prisma from "../lib/prismaDb";
 
 // Hàm lấy thông tin phòng theo tên loại phòng
-export async function getByIdRoomClassPrice(roomClassName: any) {
+export async function getByNameRoomClassPrice(roomClassName: any) {
 
 
-    const UserChiNhanIdAndKhachSanId = await prisma.tbLoaiPhong.findFirst({
+    const UserChiNhanNameAndKhachSanNameQuery = await prisma.tbLoaiPhong.findFirst({
         where: {
           TenLoaiPhong: roomClassName,
         },
@@ -16,5 +16,6 @@ export async function getByIdRoomClassPrice(roomClassName: any) {
         }
       });
 
-    return UserChiNhanIdAndKhachSanId;  // Trả về thông tin phòng
+    return UserChiNhanNameAndKhachSanNameQuery;  // Trả về thông tin phòng
+    // {id, GiaTheoGio, GiaTheoNgay}
 }

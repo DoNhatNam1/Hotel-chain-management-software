@@ -16,6 +16,7 @@ import Cookies from "js-cookie";
 import { signOut, useSession } from "next-auth/react";
 import { registerUser } from "../actions/register-user";
 import { useRouter } from 'next/navigation'
+import getSubUserWhenLoggedIn from "@/actions/getSubUserWhenLoggedIn";
 
 
 const ProfileDropDown = () => {
@@ -24,6 +25,7 @@ const ProfileDropDown = () => {
   const [open, setOpen] = useState(false);
   const { user, loading } = useUser();
   const { data } = useSession();
+  const [subUserData, setSubUserData] = useState<any>([]);
 
   useEffect(() => {
     if (!loading) {
@@ -35,6 +37,23 @@ const ProfileDropDown = () => {
     }
   }, [loading, user, open, data]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const datacokkie = Cookies.get("user_id");
+      const userData = await getSubUserWhenLoggedIn();
+      if(datacokkie){
+        setSubUserData(userData);
+        setsignedIn(true);
+      }
+    };
+
+    fetchData();
+  
+    return () => {
+      // Thực hiện các bước clean up ở đây nếu cần
+    };
+  }, []);
+  
 
    const logoutHandler = () => {
       signOut();
@@ -45,7 +64,9 @@ const ProfileDropDown = () => {
       Cookies.remove("chi_nhanh_id");
       Cookies.remove("khach_san_id");
       toast.success("Log out successful!");
-      // window.location.reload();
+      setsignedIn(false);
+      setSubUserData([])
+      window.location.reload();
   };
 
   const addUser = async (user: any) => {
@@ -59,20 +80,20 @@ const ProfileDropDown = () => {
 
   return (
     <div className="flex items-center gap-4">
-      {signedIn ? (
+      {signedIn === true ? (
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar
-              as="button"
+              as="button" 
               className="transition-transform"
-              src={data?.user ? data.user.image : user.image}
+              src={data?.user ? data?.user?.image : subUserData?.image || user?.image}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">
-                {data?.user ? data.user.email : user.email}
+                {data?.user?.email || subUserData?.email || user?.email}
               </p>
             </DropdownItem>
             <DropdownItem key="settings">

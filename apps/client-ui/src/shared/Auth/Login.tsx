@@ -17,7 +17,8 @@ import { LOGIN_USER } from "@/graphql/actions/login.action";
 import Cookies from "js-cookie";
 import { signIn } from "next-auth/react"
 import { formSchemaLogin } from "@/lib/zod/formSchemaLogin";
-import { getByIdChiNhanh } from "@/actions/get-by-id-chi-nhanh";
+import { getByUserEmailChiNhanh } from "@/actions/get-by-user-email-chi-nhanh";
+import getSubUserByEmailAndPass from "@/actions/getSubUserByEmailAndPass";
 
 type LoginSchema = z.infer<typeof formSchemaLogin>;
 
@@ -49,13 +50,13 @@ const Login = ({
     const response = await Login({
       variables: loginData,
     });
-    
+
     
     if (response.data.Login.user) {
       let UserId = response.data.Login.user.id
       let UserRole = response.data.Login.user.role
       let UserEmail = response.data.Login.user.email
-      let UserChiNhanIdAndKhachSanId = await getByIdChiNhanh(UserEmail)
+      let UserChiNhanIdAndKhachSanId = await getByUserEmailChiNhanh(UserEmail)
 
       if(UserChiNhanIdAndKhachSanId){
         let userIdChiNhanh = UserChiNhanIdAndKhachSanId.ChiNhanh[0].id;
@@ -72,6 +73,17 @@ const Login = ({
       reset();
       window.location.reload();
       router.push(`/${UserRole}/Home`)
+    } else if(!response.data.Login.user){
+      try {
+        const responseSubUser = await getSubUserByEmailAndPass(loginData)
+      toast.success("Login Successful!");
+        setOpen(false);
+        reset();
+        window.location.reload();
+        router.push(`/${responseSubUser.role}/Home`)
+      } catch (error: any) {
+        toast.error(error.message);
+      }
     } else {
       toast.error(response.data.Login.error.message);
     }

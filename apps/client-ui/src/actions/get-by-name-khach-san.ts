@@ -3,9 +3,9 @@
 import prisma from "../lib/prismaDb";
 
 // Hàm lấy thông tin khách sạn dựa trên tên
-export async function getByIdRoomHotel(roomHotelName: any) {
+export async function getByNameRoomHotel(roomHotelName: any) {
 
-    const UserChiNhanIdAndKhachSanId = await prisma.tbKhachSan.findFirst({
+    const UserChiNhanNameAndKhachSanNameQuery = await prisma.tbKhachSan.findFirst({
         where: {
           TenKhachSan: roomHotelName,
         },
@@ -14,5 +14,5 @@ export async function getByIdRoomHotel(roomHotelName: any) {
         }
       });
 
-    return UserChiNhanIdAndKhachSanId;
+    return UserChiNhanNameAndKhachSanNameQuery;
 }

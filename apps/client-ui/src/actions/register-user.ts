@@ -34,7 +34,7 @@ const setRoleCookies = async (role: string, userId: string, chiNhanhId: string, 
 };
 
 // Hàm đăng ký người dùng
-export const registerUser = async (userData: any) => {
+export const registerUser: any = async (userData: any) => {
   // Tìm thông tin người dùng dựa trên email
   const UserInfo = await prisma.user.findFirst({
     where: {

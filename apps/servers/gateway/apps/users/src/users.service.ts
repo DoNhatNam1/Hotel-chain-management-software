@@ -40,7 +40,12 @@ export class UsersService {
         email,
       },
     });
-    if (isEmailExist) {
+    const isEmailExistSub = await this.prisma.subUser.findUnique({
+      where: {
+        email,
+      },
+    });
+    if (isEmailExist || isEmailExistSub) {
       throw new BadRequestException('User already exist with this email!');
     }
 
@@ -55,7 +60,16 @@ export class UsersService {
       },
     });
 
-    if (usersWithPhoneNumber.length > 0) {
+    const subusersWithPhoneNumber = await this.prisma.subUser.findMany({
+      where: {
+        phone_number: {
+          not: null,
+          in: phoneNumbersToCheck,
+        },
+      },
+    });
+
+    if (usersWithPhoneNumber.length || subusersWithPhoneNumber.length > 0) {
       throw new BadRequestException(
         'User already exist with this phone number!',
       );
@@ -125,7 +139,13 @@ export class UsersService {
       },
     });
 
-    if (existUser) {
+    const exitstsubuser = await this.prisma.subUser.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (existUser || exitstsubuser) {
       throw new BadRequestException('User already exist with this email!');
     }
 
@@ -169,7 +189,7 @@ export class UsersService {
         accessToken: null,
         refreshToken: null,
         error: {
-          message: 'Invalid email or password',
+          message: 'Email hoặc Password không hợp lệ',
         },
       };
     }
