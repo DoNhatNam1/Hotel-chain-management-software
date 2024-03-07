@@ -361,6 +361,7 @@ enum tbphieunhap_Status {
 enum tbhoadon_PhuongThucThanhToan {
   TienMat
   ChuyenKhoan
+  The
 }
 
 enum tbdatcho_Status {
