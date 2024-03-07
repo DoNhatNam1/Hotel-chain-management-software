@@ -1,7 +1,10 @@
+'use client'
+
 import styles from "@/utils/style";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from 'next/navigation'
 import {
   AiOutlineEye,
   AiOutlineEyeInvisible,
@@ -13,13 +16,11 @@ import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "@/graphql/actions/login.action";
 import Cookies from "js-cookie";
 import { signIn } from "next-auth/react"
+import { formSchemaLogin } from "@/lib/zod/formSchemaLogin";
+import { getByUserEmailChiNhanh } from "@/actions/get-by-user-email-chi-nhanh";
+import getSubUserByEmailAndPass from "@/actions/getSubUserByEmailAndPass";
 
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8, "Password must be at least 8characters long!"),
-});
-
-type LoginSchema = z.infer<typeof formSchema>;
+type LoginSchema = z.infer<typeof formSchemaLogin>;
 
 const Login = ({
   setActiveState,
@@ -36,9 +37,10 @@ const Login = ({
     formState: { errors, isSubmitting },
     reset,
   } = useForm<LoginSchema>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchemaLogin),
   });
   const [show, setShow] = useState(false);
+  const router = useRouter();
 
   const onSubmit = async (data: LoginSchema) => {
     const loginData = {
@@ -48,13 +50,40 @@ const Login = ({
     const response = await Login({
       variables: loginData,
     });
+
+    
     if (response.data.Login.user) {
+      let UserId = response.data.Login.user.id
+      let UserRole = response.data.Login.user.role
+      let UserEmail = response.data.Login.user.email
+      let UserChiNhanIdAndKhachSanId = await getByUserEmailChiNhanh(UserEmail)
+
+      if(UserChiNhanIdAndKhachSanId){
+        let userIdChiNhanh = UserChiNhanIdAndKhachSanId.ChiNhanh[0].id;
+        let userIdKhachSan = UserChiNhanIdAndKhachSanId.ChiNhanh[0].KhachSan[0].id;
+        Cookies.set("chi_nhanh_id", userIdChiNhanh);
+        Cookies.set("khach_san_id", userIdKhachSan);
+      }
       toast.success("Login Successful!");
       Cookies.set("refresh_token", response.data.Login.refreshToken);
       Cookies.set("access_token", response.data.Login.accessToken);
+      Cookies.set("user_id", UserId);
+      Cookies.set("role", UserRole);
       setOpen(false);
       reset();
       window.location.reload();
+      router.push(`/${UserRole}/Home`)
+    } else if(!response.data.Login.user){
+      try {
+        const responseSubUser = await getSubUserByEmailAndPass(loginData)
+      toast.success("Login Successful!");
+        setOpen(false);
+        reset();
+        window.location.reload();
+        router.push(`/${responseSubUser.role}/Home`)
+      } catch (error: any) {
+        toast.error(error.message);
+      }
     } else {
       toast.error(response.data.Login.error.message);
     }
@@ -62,7 +91,7 @@ const Login = ({
 
   return (
     <div>
-      <h1 className={`${styles.title}`}>Login with Becodemy</h1>
+      <h1 className={`${styles.title}`}>Login with Welding Store</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label className={`${styles.label}`}>Enter your Email</label>
         <input
