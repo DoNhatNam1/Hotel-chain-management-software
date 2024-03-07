@@ -8,7 +8,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Chip,
   Tooltip,
 } from '@nextui-org/react'
 import { EditIcon } from './EditIcon'
