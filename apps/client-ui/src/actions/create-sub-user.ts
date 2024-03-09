@@ -22,13 +22,13 @@ export default async function createSubUser(SubUserData: SubUserDataType){
   })
       const UserExitPhone = await prisma.user.findFirst({
       where: {
-          phone_number: parseInt(SubUserData.phone_number),
+          phone_number: SubUserData.phone_number,
         },
   })
 
   const SunbUserExitPhone = await prisma.subUser.findFirst({
     where: {
-        phone_number: parseInt(SubUserData.phone_number),
+        phone_number: SubUserData.phone_number,
       },
 })
 
@@ -41,20 +41,31 @@ export default async function createSubUser(SubUserData: SubUserDataType){
 
     const hashedPassword = await bcrypt.hash(SubUserData.password, 10);
 
-    const phone_number = SubUserData.phone_number
-
-    const phone_number_convert = parseInt(phone_number);
-
-    const subuser = await prisma.subUser.create({
+    if(SubUserData?.id){
+      const subuser = await prisma.subUser.create({
+        data: {
+          id: SubUserData?.id,
+          name: SubUserData.name,
+          MaKhachSan: khach_san_id,
+          email: SubUserData.email,
+          password: hashedPassword,
+          phone_number: SubUserData.phone_number,
+          role: SubUserData.role,
+        },
+      });
+    } else {
+      const subuser = await prisma.subUser.create({
         data: {
           name: SubUserData.name,
           MaKhachSan: khach_san_id,
           email: SubUserData.email,
           password: hashedPassword,
-          phone_number: phone_number_convert,
-          address: SubUserData.address,
-          role: "LeTan",
+          phone_number: SubUserData.phone_number,
+          role: SubUserData.role,
         },
       });
+    }
+
+
   
 }

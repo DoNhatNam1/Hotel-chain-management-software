@@ -16,7 +16,7 @@ import Cookies from "js-cookie";
 import { signOut, useSession } from "next-auth/react";
 import { registerUser } from "../actions/register-user";
 import { useRouter } from 'next/navigation'
-import getSubUserWhenLoggedIn from "@/actions/getSubUserWhenLoggedIn";
+import getSubUserWhenLoggedIn from "@/actions/get-sub- user- when-logged-in";
 
 
 const ProfileDropDown = () => {

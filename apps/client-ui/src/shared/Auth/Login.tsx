@@ -18,7 +18,7 @@ import Cookies from "js-cookie";
 import { signIn } from "next-auth/react"
 import { formSchemaLogin } from "@/lib/zod/formSchemaLogin";
 import { getByUserEmailChiNhanh } from "@/actions/get-by-user-email-chi-nhanh";
-import getSubUserByEmailAndPass from "@/actions/getSubUserByEmailAndPass";
+import getSubUserByEmailAndPass from "@/actions/get-sub-user-by-email-and-pass";
 
 type LoginSchema = z.infer<typeof formSchemaLogin>;
 
