@@ -1,5 +1,5 @@
 "use client";
-import styles from "@/src/utils/style";
+import styles from "@/utils/style";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,26 +7,11 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation } from "@apollo/client";
-import { RESET_PASSWORD } from "@/src/graphql/actions/reset-password.action";
+import { RESET_PASSWORD } from "@/graphql/actions/reset-password.action";
+import { formSchemaResetPassword } from "@/lib/zod/formSchemaResetPassword";
+import { useRouter } from 'next/navigation'
 
-const formSchema: any = z
-  .object({
-    password: z.string().min(8, "Password must be at least 8 characters long!"),
-    confirmPassword: z
-      .string()
-      .min(8, "Password must be at least 8 characters long!"),
-  })
-  .refine(
-    (values) => {
-      return values.password === values.confirmPassword;
-    },
-    {
-      message: "Passwords must need to match!",
-      path: ["confirmPassword"],
-    }
-  );
-
-type ResetPasswordSchema = z.infer<typeof formSchema>;
+type ResetPasswordSchema = z.infer<typeof formSchemaResetPassword>;
 
 const ResetPassword = ({
   activationToken,
@@ -40,10 +25,11 @@ const ResetPassword = ({
     formState: { errors, isSubmitting },
     reset,
   } = useForm<ResetPasswordSchema>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchemaResetPassword),
   });
   const [show, setShow] = useState(false);
   const [confirmPasswordshow, setconfirmPasswordshow] = useState(false);
+  const router = useRouter();
 
   const onSubmit = async (data: ResetPasswordSchema): Promise<void> => {
     try {
@@ -54,6 +40,7 @@ const ResetPassword = ({
         },
       });
       toast.success("Password updated successfully!")
+      router.push('/')
     } catch (error: any) {
         toast.error(error.message);
     }

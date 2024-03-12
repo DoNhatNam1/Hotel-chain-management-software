@@ -13,17 +13,9 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { REGISTER_USER } from "@/graphql/actions/register.action";
 import toast from "react-hot-toast";
+import { formSchemaSignUp } from "@/lib/zod/formSchemaSignUp";
 
-const formSchema = z.object({
-  name: z.string().min(3, "Name must be at least 3 characters long!"),
-  email: z.string().email(),
-  password: z.string().min(8, "Password must be at least 8characters long!"),
-  phone_number: z
-    .number()
-    .min(10, "Phone number must be at least 11 characters!"),
-});
-
-type SignUpSchema = z.infer<typeof formSchema>;
+type SignUpSchema = z.infer<typeof formSchemaSignUp>;
 
 const Signup = ({
   setActiveState,
@@ -38,7 +30,7 @@ const Signup = ({
     formState: { errors, isSubmitting },
     reset,
   } = useForm<SignUpSchema>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchemaSignUp),
   });
   const [show, setShow] = useState(false);
 

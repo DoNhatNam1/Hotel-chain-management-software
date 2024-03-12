@@ -15,17 +15,19 @@ const Hero = () => {
     <div className="w-full h-[100vh] banner flex items-center z-10 absolute">
       <div className="backdrop_shaders w-full" />
       <div className="w-[80%] m-auto">
-        <h1 className="text-4xl py-5 xl:text-6xl font-[700] xl:leading-[80px] sm:mt-20 font-Inter">
-          Healthy and delicious meals, <br />
-          Delivered straight to your door!
+        <h1 className="text-4xl text-[#1398f8f1] py-5 xl:text-6xl font-[800] xl:leading-[80px] sm:mt-20 font-Inter">
+          Chào mừng đến với WeldingStore<br />
+          <span className="text-slate-200 font-Poppins font-[600] text-3xl">
+            Chúng tôi sẽ giúp bạn tìm hiểu về sản phẩm của mình
+          </span>
         </h1>
         <p className={`${styles.label} !text-[18px]`}>
-          Healthy food, drinks and groceries available for delivery or pickup.
-          Great <br /> discounts for first delivery.
+          Ở đây, chúng tôi coi trọng sự uy tin và chất lượng của việc quản lý 
+          <br /> đối với từng doanh nghiệp lớn hay nhỏ.
         </p>
         <br />
-        <Button className={`${styles.button} w-[180px] md:mb-12`}>
-          Order Now
+        <Button className={`${styles.button} w-[180px] font-semibold md:mb-12`}>
+          Dùng thử miễn phí
         </Button>
       </div>
     </div>
@@ -46,7 +48,7 @@ const Hero = () => {
                  className="aspect-[1.14] object-contain object-center w-full fill-yellow-800 overflow-hidden"
                />
              </div>
-             <div className="text-white text-xl font-medium self-center grow whitespace-nowrap my-auto">
+             <div className="text-black text-xl font-medium self-center grow whitespace-nowrap my-auto">
                Đơn giản & dễ sử dụng
              </div>
            </span>
@@ -68,7 +70,7 @@ const Hero = () => {
                  className="aspect-square object-contain object-center w-full fill-orange-400 overflow-hidden"
                />
              </div>
-             <div className="text-white text-xl font-medium self-center whitespace-nowrap mt-3.5">
+             <div className="text-black text-xl font-medium self-center whitespace-nowrap mt-3.5">
                Tiết kiệm chi phí
              </div>
              <div className="text-zinc-500 text-center text-base mt-3.5">
@@ -85,7 +87,7 @@ const Hero = () => {
                  className="aspect-square object-contain object-center w-full fill-green-800 overflow-hidden"
                />
              </div>
-             <div className="text-white text-xl font-medium self-stretch whitespace-nowrap mt-3.5">
+             <div className="text-black text-xl text-center font-medium self-stretch whitespace-nowrap mt-3.5">
                Phù hợp cho từng ngành hàng
              </div>
              <div className="text-zinc-500 text-center text-base self-stretch mt-3.5">
@@ -103,7 +105,7 @@ const Hero = () => {
      <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
        <div className="flex flex-col items-stretch w-[33%] max-md:w-full max-md:ml-0">
          <span className="items-center flex grow flex-col pb-2.5 max-md:mt-8">
-           <div className="justify-center items-center bg-white bg-opacity-40 self-center flex aspect-square flex-col w-[70px] h-[70px] px-4 rounded-xl">
+           <div className="justify-center items-center bg-white bg-opacity-90 self-center flex aspect-square flex-col w-[70px] h-[70px] px-4 rounded-xl">
            <Image
                  priority={false}
                  src={ShopStoreImg}
@@ -115,7 +117,7 @@ const Hero = () => {
              Bán buôn, bán lẻ
            </div>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-7 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -128,7 +130,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-[1.0357142857142858] flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-[1.0357142857142858] flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -141,7 +143,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -154,7 +156,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -167,7 +169,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-[1.0357142857142858] flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-[1.0357142857142858] flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -180,7 +182,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -193,7 +195,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -209,7 +211,7 @@ const Hero = () => {
        </div>
        <div className="flex flex-col items-stretch w-[33%] ml-5 max-md:w-full max-md:ml-0">
          <span className="items-center flex grow flex-col pb-2.5 max-md:mt-8">
-           <div className="justify-center items-center bg-white bg-opacity-40 self-center flex aspect-[1.0344827586206897] flex-col w-[70px] h-[70px] px-5 rounded-xl">
+           <div className="justify-center items-center bg-white bg-opacity-90 self-center flex aspect-[1.0344827586206897] flex-col w-[70px] h-[70px] px-5 rounded-xl">
            <Image
                  priority={false}
                  src={GlassImg}
@@ -221,7 +223,7 @@ const Hero = () => {
              Ăn uống, giải trí
            </div>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-7 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-[0.9655172413793104] flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-[0.9655172413793104] flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -234,7 +236,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-square flex-col w-7 h-7 px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-square flex-col w-7 h-7 px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -247,7 +249,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-[0.9655172413793104] flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-[0.9655172413793104] flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -260,7 +262,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-[0.9655172413793104] flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-[0.9655172413793104] flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -273,7 +275,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-square flex-col w-7 h-7 px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-square flex-col w-7 h-7 px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -286,7 +288,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-[0.9655172413793104] flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-[0.9655172413793104] flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -299,7 +301,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-[0.9655172413793104] flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-[0.9655172413793104] flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -315,7 +317,7 @@ const Hero = () => {
        </div>
        <div className="flex flex-col items-stretch w-[33%] ml-5 max-md:w-full max-md:ml-0">
          <span className="items-center flex flex-col pb-2.5 max-md:mt-8">
-           <div className="justify-center items-center bg-white bg-opacity-40 self-center flex aspect-square flex-col w-[70px] h-[70px] px-5 rounded-xl">
+           <div className="justify-center items-center bg-white bg-opacity-90 self-center flex aspect-square flex-col w-[70px] h-[70px] px-5 rounded-xl">
            <Image
                  priority={false}
                  src={FashionStoreImg}
@@ -327,7 +329,7 @@ const Hero = () => {
              Làm đẹp, sức khỏe & lưu trú
            </div>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-7 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-[1.0357142857142858] flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-[1.0357142857142858] flex-col w-[29px] h-[29px] px-1.5">
                 <Image
                  priority={false}
                  src={TshirtImg}
@@ -340,7 +342,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -353,7 +355,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -366,7 +368,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-[1.0357142857142858] flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-[1.0357142857142858] flex-col w-[29px] h-[29px] px-1.5">
                 <Image
                  priority={false}
                  src={TshirtImg}
@@ -379,7 +381,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -392,7 +394,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-square flex-col w-[29px] h-[29px] px-1.5">
              <Image
                  priority={false}
                  src={TshirtImg}
@@ -405,7 +407,7 @@ const Hero = () => {
              </div>
            </span>
            <span className="items-stretch self-stretch border-white flex justify-between gap-1 mt-3 pt-2.5 border-t border-solid">
-             <div className="justify-center items-center bg-white bg-opacity-40 flex aspect-[1.0357142857142858] flex-col w-[29px] h-[29px] px-1.5">
+             <div className="justify-center items-center bg-white bg-opacity-90 flex aspect-[1.0357142857142858] flex-col w-[29px] h-[29px] px-1.5">
                 <Image
                  priority={false}
                  src={TshirtImg}

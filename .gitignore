@@ -33,3 +33,5 @@ clients/.DS_Store
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.nx/installation
+.nx/cache
