@@ -1,7 +1,7 @@
 "use server";  // Sử dụng server mode
 
 import { SubUserDataType } from "@/types/sub-user";
-import prisma from "../lib/prismaDb";  // Import module prisma từ đường dẫn ../lib/prismaDb
+import prisma from "../../lib/prismaDb";  // Import module prisma từ đường dẫn ../lib/prismaDb
 import { cookies } from 'next/headers'
 import * as bcrypt from "bcrypt"
 

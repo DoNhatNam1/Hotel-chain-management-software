@@ -15,7 +15,7 @@ const GoodsBody = () => {
         </h2>
         <AdminAddGoodsButtonsComponent />
       </div>
-      <div className="w-full grid place-content-center">
+      <div className="w-full h-full grid place-content-center">
         <AdminGoodsTableComponent />
       </div>
     </div>

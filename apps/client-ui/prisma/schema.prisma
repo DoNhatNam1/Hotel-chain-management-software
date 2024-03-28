@@ -101,8 +101,6 @@ model TbHangHoa {
   ViTri               String?         @db.VarChar(255)
   StatusThongBao      thongbao_Status @default(On)
   NhomHangHoa         TbNhomHangHoa   @relation(fields: [MaNhomHangHoa], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbhanghoa_manhomhanghoa_foreign_key_idx")
-
-
   CacLinkAnhHangHoa  TbCacLinkAnhHangHoa[]
   ChiTietNoiDungNhap TbChiTietNoiDungNhap[]
 

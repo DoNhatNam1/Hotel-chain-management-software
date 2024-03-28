@@ -14,10 +14,10 @@ import { useForm } from 'react-hook-form'
 import { IoMdSave } from 'react-icons/io'
 import { FaPlus } from 'react-icons/fa6'
 import { MdBlock } from 'react-icons/md'
-import { getByNameRoomClassPrice } from '@/actions/get-by-name-room-class'
-import { getByNameRoomSub } from '@/actions/get-by-name-room-sub'
-import  createRoom  from '@/actions/create-room'
-import { getByNameRoomHotel } from '@/actions/get-by-name-khach-san'
+import { getByNameRoomClassPrice } from '@/actions/GET/get-by-name-room-class'
+import { getByNameRoomSub } from '@/actions/GET/get-by-name-room-sub'
+import  createRoom  from '@/actions/POST/create-room'
+import { getByNameRoomHotel } from '@/actions/GET/get-by-name-khach-san'
 
 type CreateRoomTypeSchema = z.infer<typeof formSchemaCreateRoomtype>
 
@@ -48,9 +48,7 @@ const AdminAddRoomFormComponent: any = ({
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [giaTheoNgay, setGiaTheoNgay] = useState<string | undefined>('')
   const [giaTheoGio, setGiaTheoGio] = useState<string | undefined>('')
-  const [valueInputRoomClass, setValueInputRoomClass] = useState<
-    string | undefined
-  >('')
+  const [valueInputRoomClass, setValueInputRoomClass] = useState<string | undefined>('')
   const [khuVuc, setKhuVuc] = useState<string | undefined>('')
   const [hotel, setHotel] = useState<string | undefined>('')
 

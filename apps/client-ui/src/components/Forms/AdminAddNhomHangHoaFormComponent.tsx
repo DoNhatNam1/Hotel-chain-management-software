@@ -3,42 +3,41 @@
 import React from 'react'
 import { BsPencil } from 'react-icons/bs'
 import styles from '@/utils/style'
-import { formSchemaCreateRoomSubtype } from '@/lib/zod/formSchemaCreateRoomSubtype'
+import { formSchemaCreateNhomHangHoatype } from '@/lib/zod/formSchemaCreateNhomHangHoatype'
 import { zodResolver } from '@hookform/resolvers/zod'
 import toast from 'react-hot-toast'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { IoMdSave } from 'react-icons/io'
 import { MdBlock } from 'react-icons/md'
-import { createRoomClassSub } from '@/actions/POST/create-room-class-sub'
+import { createNhomHangHoa } from '@/actions/POST/create-nhom-hang-hoa'
 
-type CreateRoomSubTypeSchema = z.infer<typeof formSchemaCreateRoomSubtype>
+type CreateNhomHangHoaTypeSchema = z.infer<typeof formSchemaCreateNhomHangHoatype>
 
-const AdminAddRoomSubFormComponent: any = ({
-    setOpenSub,
+const AdminAddNhomHoangHoaFormComponent: any = ({
+    setOpenNhomHangHoa,
   }: {
-    setOpenSub: (e: string) => void;
+    setOpenNhomHangHoa: (e: string) => void;
   }) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<CreateRoomSubTypeSchema>({
-    resolver: zodResolver(formSchemaCreateRoomSubtype),
+  } = useForm<CreateNhomHangHoaTypeSchema>({
+    resolver: zodResolver(formSchemaCreateNhomHangHoatype),
   })
 
-  const onSubmit = async (data: CreateRoomSubTypeSchema) => {
-    const DataCreateRoomSub = {
-      TenNhomKhuVuc: data.TenNhomKhuVuc,
-      GhiChu: data.GhiChu,
+  const onSubmit = async (data: CreateNhomHangHoaTypeSchema) => {
+    const DataCreateNhomHangHoa = {
+        TenNhomHangHoa: data.TenNhomHangHoa,
     }
 
     try {
-      await createRoomClassSub(DataCreateRoomSub)
-      toast.success('Thêm mới khu vực thành công!')
+      await createNhomHangHoa(DataCreateNhomHangHoa)
+      toast.success('Thêm mới nhóm hàng hóa thành công!')
       reset()
-      setOpenSub('screen2')
+      setOpenNhomHangHoa('screen2')
     } catch (error:any) {
       toast.error(error.message)
     }
@@ -49,30 +48,17 @@ const AdminAddRoomSubFormComponent: any = ({
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="grid grid-cols-1 gap-4 p-5">
           <div className="flex items-center">
-            <label className={`${styles.formlabel}`}>Khu vực:</label>
+            <label className={`${styles.formlabel}`}>Nhóm hàng hóa:</label>
             <input
-              {...register('TenNhomKhuVuc')}
+              {...register('TenNhomHangHoa')}
               type="text"
-              name="TenNhomKhuVuc"
               className={`${styles.formInput}`}
             />
-            {errors.TenNhomKhuVuc && (
+            {errors.TenNhomHangHoa && (
               <span className="text-red-500 block mt-1">
-                {`${errors.TenNhomKhuVuc.message}`}
+                {`${errors.TenNhomHangHoa.message}`}
               </span>
             )}
-          </div>
-          <div className="flex items-center">
-            <label className={`${styles.formlabel} flex gap-3`}>
-              Ghi chú:
-              <BsPencil className="size-4 text-gray-500" />
-            </label>
-            <input
-              {...register('GhiChu')}
-              type="text"
-              name="GhiChu"
-              className={`${styles.formInput}`}
-            />
           </div>
         </div>
         {/* Button Submit Group */}
@@ -90,7 +76,7 @@ const AdminAddRoomSubFormComponent: any = ({
           <button
             type="button"
             className={`${styles.formbtnClose}`}
-            onClick={() => setOpenSub('screen2' as "screen2" | "PhongKhuVuc")}
+            onClick={() => setOpenNhomHangHoa('screen2' as "screen2" | "NhomHangHoa")}
           >
             <span className="h-full grid place-content-center">
               <MdBlock className="size-4 hover:text-red-500" />
@@ -103,4 +89,4 @@ const AdminAddRoomSubFormComponent: any = ({
   )
 }
 
-export default AdminAddRoomSubFormComponent
+export default AdminAddNhomHoangHoaFormComponent

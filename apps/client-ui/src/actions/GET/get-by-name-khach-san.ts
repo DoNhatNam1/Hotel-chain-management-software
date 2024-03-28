@@ -1,6 +1,6 @@
 'use server'
 
-import prisma from "../lib/prismaDb";
+import prisma from "../../lib/prismaDb";
 
 // Hàm lấy thông tin khách sạn dựa trên tên
 export async function getByNameRoomHotel(roomHotelName: any) {

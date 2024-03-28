@@ -1,5 +1,5 @@
 "use server";
-import prisma from "../lib/prismaDb";
+import prisma from "../../lib/prismaDb";
 
 // Hàm lấy thông tin phòng theo tên loại phòng
 export async function getByNameRoomClassPrice(roomClassName: any) {

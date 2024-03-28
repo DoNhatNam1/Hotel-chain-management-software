@@ -1,11 +1,11 @@
 "use server";  // Sử dụng server mode
 
-import prisma from "../lib/prismaDb";  // Import module prisma từ đường dẫn ../lib/prismaDb
+import prisma from "../../lib/prismaDb";  // Import module prisma từ đường dẫn ../lib/prismaDb
 import { cookies } from 'next/headers';  // Import cookies từ 'next/headers'
 
 export const createRoomClass = async (RoomClassData: any) => {
     const admin_id = cookies().get('user_id')?.value
-    const khach_san = cookies().get('khach_san')?.value
+    const khach_san = cookies().get('khach_san_id')?.value
     // Tìm kiếm bản ghi trong bảng tbLoaiPhong dựa trên id từ RoomClassData
     const roomClassIdExit = await prisma.tbLoaiPhong.findFirst({
         where: {

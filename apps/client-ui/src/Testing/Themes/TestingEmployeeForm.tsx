@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import createSubUser from '../../actions/create-sub-user'; 
+import createSubUser from '../../actions/POST/create-sub-user'; 
 import toast from 'react-hot-toast';
 
 const TestingEmployeeForm = () => {

@@ -10,11 +10,11 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { IoMdSave } from 'react-icons/io'
 import { MdBlock } from 'react-icons/md'
-import { getByNameRoomHotel } from '@/actions/get-by-name-khach-san'
-import createSubUser from '@/actions/create-sub-user'
+import { getByNameRoomHotel } from '@/actions/GET/get-by-name-khach-san'
+import createSubUser from '@/actions/POST/create-sub-user'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { PiWarningCircleFill } from 'react-icons/pi'
-import getAllEmployeesHotel from '@/actions/get-all-employee-hotel'
+import getAllEmployeesHotel from '@/actions/GET/get-all-employee-hotel'
 
 type CreateEmployeeTypeSchema = z.infer<typeof formSchemaCreateEmpployeetype>
 
@@ -167,7 +167,7 @@ const AdminAddEmployeesFormComponent: any = ({
               <input
                 {...register('id')}
                 type="text"
-                placeholder="Mã hạng phòng tự dộng"
+                placeholder="Mã nhân viên tự dộng"
                 className={`${styles.formInput}`}
               />
             </div>
