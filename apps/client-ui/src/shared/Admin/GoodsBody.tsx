@@ -3,8 +3,13 @@
 import AdminAddGoodsButtonsComponent from '@/components/Buttons/AdminAddGoodsButtonsComponent'
 import AdminGoodsTableComponent from '@/components/Tables/AdminGoodsTableComponent'
 import AdminHeader from '@/components/Layout/AdminHeader'
+import getAllHangHoaHotel from "@/actions/GET/get-all-hang-hoa"
 
-const GoodsBody = () => {
+
+
+
+export default async function GoodsBody () {
+  const hangHoaData = await getAllHangHoaHotel();
   return (
     <div className="basis-5/6">
     <AdminHeader />
@@ -16,11 +21,11 @@ const GoodsBody = () => {
         <AdminAddGoodsButtonsComponent />
       </div>
       <div className="w-full h-full grid place-content-center">
-        <AdminGoodsTableComponent />
+        <AdminGoodsTableComponent 
+        hangHoaData={hangHoaData} 
+        />
       </div>
     </div>
   </div>
   )
 }
-
-export default GoodsBody

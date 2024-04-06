@@ -1,4 +1,4 @@
-import AdminGoodsScreen from "@/screens/AdminGoodsScreen";
+import AdminGoodsScreen from "@/screens/Goods/AdminGoodsScreen";
 
 
 export default function Page() {

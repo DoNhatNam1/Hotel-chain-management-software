@@ -1,12 +1,16 @@
 'use client'
 
-import AdminGoodsTable from '@/lib/MuiX/AdminGoodsTable'
+import AdminHangHoaTable from '@/lib/NextUi/AdminHangHoaTable'
 
-const AdminGoodsTableComponent = () => {
+interface AdminGoodsTableComponentProps {
+  hangHoaData: any
+}
+
+const AdminGoodsTableComponent: React.FC<AdminGoodsTableComponentProps> = ({ hangHoaData }) => {
   
   return (
     <>
-    <AdminGoodsTable />
+    <AdminHangHoaTable hangHoaData={hangHoaData} />
     </>
   )
 }
