@@ -1,5 +1,12 @@
 
+import AdminGoodsEditTableScreen from "@/screens/Goods/AdminGoodsEditTableScreen";
 
 export default function Page({ params }: { params: { id: string } }) {
-    return <div>My Post: {params.id}</div>
+  return (
+    <>
+        <AdminGoodsEditTableScreen
+          idHangHoa = {params.id}
+         />
+    </>
+  )
   }

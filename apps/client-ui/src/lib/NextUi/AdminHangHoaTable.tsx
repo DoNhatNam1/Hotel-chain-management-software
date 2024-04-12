@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import {
   Table,
@@ -23,6 +25,7 @@ import {columns} from "@/Testing/Data/data";
 import {capitalize} from "@/utils/reconstruct";
 import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation'
+import deleteHangHoa from "@/actions/DELETE/delete-hang-hoa";
 
 
 
@@ -51,8 +54,20 @@ export default function AdminHangHoaTable({ hangHoaData }: { hangHoaData: HangHo
     router.push(`/Admin/Goods/${id}/Edit`);
   }
 
-  const handleNavToDelete = (id: string) => {
-    router.push(`/Admin/Goods/${id}/Delete`);
+  const handleNavToDelete = async (id: string) => {
+
+    try {
+      const deleteHangHoaReturn = await deleteHangHoa(id)
+      if(!deleteHangHoaReturn){
+        toast.error("Xóa thất bại, lỗi 500")
+      } else {
+        toast.success(`Xóa ${deleteHangHoaReturn.TenHangHoa} thành công`)
+        window.location.reload()
+      }
+    } catch (error:any) {
+      toast.error(error.message)
+    }
+   
   }
 
   // 

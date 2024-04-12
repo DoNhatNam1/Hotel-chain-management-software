@@ -1,3 +1,4 @@
+import { Decimal } from "@prisma/client/runtime/library";
 import {SVGProps} from "react";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
@@ -28,4 +29,12 @@ export type SaleByProductData = {
 export type TbCacLinkAnhPhongCreateInput = {
   MaPhong: string;
   LinkAnh: string;
+}
+
+export type HangHoaPurchasesOrder = {
+  id: string;
+  TenHangHoa: string;
+  DonViTinh: string | null;
+  GiaGocHangHoa: Decimal;
+  SLTonKho: number;
 }

@@ -14,6 +14,7 @@ export default async function getByIdHangHoaAndImages(idHangHoa: string) {
           MaNhomHangHoa: true,
           TenHangHoa: true,
           DonViTinh: true,
+          SLTonKho: true,
           GiaGocHangHoa: true,
           GiaBanHangHoa: true,
           DinhMucTonItNhat: true,
