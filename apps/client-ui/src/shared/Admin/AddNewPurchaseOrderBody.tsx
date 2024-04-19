@@ -159,11 +159,13 @@ const PurchaseOrderBody = () => {
             </div>
 
             {/* BottomTableList */}
-            <div className="basis-11/12 bg-pink-300">
-                {data === true ? (
+            <div className="basis-11/12 bg-pink-300 overflow-y-auto">
+                {dataAfterSelected.length === 0 ? (
                     <TableNoDataDisplay />
                 ) : (
-                    <AdminTableDisplayAddPurchaseOrderComponent/>
+                    <AdminTableDisplayAddPurchaseOrderComponent 
+                    dataAfterSelected={dataAfterSelected}
+                    />
                 )}
             </div>
         </div>
