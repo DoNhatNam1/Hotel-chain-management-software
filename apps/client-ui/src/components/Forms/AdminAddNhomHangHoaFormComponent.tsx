@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { BsPencil } from 'react-icons/bs'
 import styles from '@/utils/style'
 import { formSchemaCreateNhomHangHoatype } from '@/lib/zod/formSchemaCreateNhomHangHoatype'
 import { zodResolver } from '@hookform/resolvers/zod'

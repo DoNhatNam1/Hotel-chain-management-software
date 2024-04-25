@@ -53,7 +53,7 @@ const Signup = ({
 
   return (
     <div>
-      <h1 className={`${styles.title}`}>SignUp with Becodemy</h1>
+      <h1 className={`${styles.title}`}>SignUp with Welding Store</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="w-full relative mb-3">
           <label className={`${styles.label}`}>Enter your Name</label>
