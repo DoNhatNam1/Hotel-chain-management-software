@@ -5,13 +5,13 @@ Chào mừng đến với Website mã nguồn mở Quản lý chuỗi Khách S�
 
 ## Cách cài đặt
 
-### về phía máy client
+### Về phía máy client
 
 B1: mở Terminal mới từ folder Hotel-chain-managememt-software-v2- rồi gõ lệnh: cd/apps/client-ui
 
 B2: Làm theo [Client_ReadMe](https://github.com/Nhom7-CNPM3/Hotel-chain-management-software-v2-/blob/Hotel_Branch/apps/client-ui/README.md)
 
-### về phía máy chủ Server
+### Về phía máy chủ Server
 
 B1: mở Terminal mới từ folder Hotel-chain-managememt-software-v2- rồi gõ lệnh: cd/apps/client-ui
 
