@@ -37,4 +37,5 @@ export type HangHoaPurchasesOrder = {
   DonViTinh: string | null;
   GiaGocHangHoa: Decimal;
   SLTonKho: number;
+  slTon: number;
 }

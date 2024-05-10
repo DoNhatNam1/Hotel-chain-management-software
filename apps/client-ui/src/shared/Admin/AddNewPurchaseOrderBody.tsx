@@ -29,7 +29,7 @@ const PurchaseOrderBody = () => {
     const [openSubNhomHangHoa, setOpenSubNhomHangHoa] = useState<OpenSubNhomHangType>('Close')
     const [nhomHangHotel, setNhomHangHotel] = useState<GetAllNhomHangHotelTypeSchema[]>([])
     const [nhomHangHoaId, setNhomHangHoaId] = useState<string | undefined>('')
-    const [dataAfterSelected, setdataAfterSelected] = useState<HangHoaPurchasesOrder[]>([])
+    const [dataAfterSelected, setDataAfterSelected] = useState<HangHoaPurchasesOrder[]>([])
 
     const data = true;
 
@@ -94,7 +94,7 @@ const PurchaseOrderBody = () => {
         const dataSelected = await getHangHoaByNhomHangHoaId(nhomHangHoaId ?? '')
 
         if(dataSelected){
-          setdataAfterSelected(dataSelected)
+          setDataAfterSelected(dataSelected)
           setOpenSubNhomHangHoa('Close')
         } else {
           toast.error('Fail error 500, No data Selected found on Server')
@@ -165,6 +165,7 @@ const PurchaseOrderBody = () => {
                 ) : (
                     <AdminTableDisplayAddPurchaseOrderComponent 
                     dataAfterSelected={dataAfterSelected}
+                    setDataAfterSelected={setDataAfterSelected}
                     />
                 )}
             </div>
