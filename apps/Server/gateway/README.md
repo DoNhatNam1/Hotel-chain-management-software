@@ -38,8 +38,9 @@ $ npm install
 # development
 $ npm run start
 
-# watch mode
-$ npm run start:dev
+# watch mode (Chạy dòng lệnh này để web hoạt dộng)
+$ npm run start:dev users
+![Project Image](./server_run.png)
 
 # production mode
 $ npm run start:prod
