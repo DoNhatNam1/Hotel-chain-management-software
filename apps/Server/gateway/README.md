@@ -40,7 +40,7 @@ $ npm run start
 
 # watch mode (Chạy dòng lệnh này để web hoạt dộng)
 $ npm run start:dev users
-![Project Image](../../../server_run.png)
+![Project Image](../../server_run.png)
 
 # production mode
 $ npm run start:prod
