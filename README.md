@@ -4,8 +4,6 @@
 Chào mừng đến với Website mã nguồn mở Quản lý chuỗi Khách Sạn Welding Store của chúng mình, mục tiêu dự án này là làm ra dự án để quản lý phòng cũng như hàng hóa, hàng tồn kho. Quyền sẽ được phân chia cho Admin, Lễ Tân. Tất cả folder dự án sẽ được tự do truy cập, và file Readme ở đầu chính là file khởi tạo nhằm mục đích giới thiêu qua về website
 
 ## Cách cài đặt
-Sau khi Clone dự án về máy thì vô file gốc chứa apps rồi mở terminal trong vscode gõ lệnh: npm i
-![Project Image](./npm_i_image.png)
 
 ### về phía máy client
 
