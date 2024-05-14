@@ -27,4 +27,5 @@ B3: Làm theo [Server_ReadMe](https://github.com/Nhom7-CNPM3/Hotel-chain-managem
 
 Nhớ phải cài đặt sẵn NodeJS trong thiết bị và mở chạy cả 2 cmd client và server để khơi chạy dự án
 
-Nhớ thay thế các config trong file .evi để phù hợp với database của bạn
+Nhớ thay thế các config trong file .env của cả 2 folder client-ui và Server để phù hợp với database của bạn
+![Project Image](./env_file.png)
