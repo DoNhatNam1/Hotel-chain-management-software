@@ -4,8 +4,10 @@
 Chào mừng đến với Website mã nguồn mở Quản lý chuỗi Khách Sạn Welding Store của chúng mình, mục tiêu dự án này là làm ra dự án để quản lý phòng cũng như hàng hóa, hàng tồn kho. Quyền sẽ được phân chia cho Admin, Lễ Tân. Tất cả folder dự án sẽ được tự do truy cập, và file Readme ở đầu chính là file khởi tạo nhằm mục đích giới thiêu qua về website
 
 ## Cách cài đặt
+Sau khi Clone dự án về máy thì vô file gốc chứa apps rồi mở terminal trong vscode gõ lệnh: npm i
+![Project Image](./npm_i_image.png)
 
-### Về phía máy client
+### về phía máy client
 
 B1: mở Terminal mới từ folder Hotel-chain-managememt-software-v2- rồi gõ lệnh: cd/apps/client-ui
 
@@ -14,7 +16,7 @@ B2: gõ lệnh: npm i như phía dưới
 
 B3: Làm theo [Client_ReadMe](https://github.com/Nhom7-CNPM3/Hotel-chain-management-software-v2-/blob/Hotel_Branch/apps/client-ui/README.md)
 
-### Về phía máy chủ Server
+### về phía máy chủ Server
 
 B1: mở Terminal mới từ folder Hotel-chain-managememt-software-v2- rồi gõ lệnh: cd/apps/Server/gateway
 
