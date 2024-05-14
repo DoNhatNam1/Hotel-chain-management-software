@@ -42,7 +42,7 @@ $ npm run start
 $ npm run start:dev users
 ```
 
-![Project Image](./server_run.png)
+<img src="./server_run.png">
 
 ## Test
 
