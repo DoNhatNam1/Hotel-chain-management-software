@@ -8,7 +8,13 @@ import { useState } from 'react';
 
 type TableRowTypeBtn = "RoomClass" | "Room"
 
-const AdminRoomClassTableComponent = () => {
+const AdminRoomClassTableComponent = ({
+  dataHangPhong,
+  dataPhong
+}: {
+  dataHangPhong: any[]
+  dataPhong: any[]
+}) => {
   const [tableRowType, setTableRowType] = useState<TableRowTypeBtn>("RoomClass");
 
   return (
@@ -33,13 +39,17 @@ const AdminRoomClassTableComponent = () => {
       </div>
 
       {tableRowType === "RoomClass" ? (
-        <AdminRoomClassTable />
+        <AdminRoomClassTable
+        dataHangPhong={dataHangPhong}
+        />
       )  : (
         null
       )}
 
 {tableRowType === "Room" ? (
-        <AdminRoomTable />
+        <AdminRoomTable
+        // dataPhong={dataPhong}
+         />
       )  : (
         null
       )}

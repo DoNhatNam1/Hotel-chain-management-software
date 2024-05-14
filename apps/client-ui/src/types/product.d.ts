@@ -31,11 +31,19 @@ export type TbCacLinkAnhPhongCreateInput = {
   LinkAnh: string;
 }
 
-export type HangHoaPurchasesOrder = {
+export type HangHoaPurchasesOrderWithslTon = {
   id: string;
   TenHangHoa: string;
   DonViTinh: string | null;
   GiaGocHangHoa: Decimal;
   SLTonKho: number;
   slTon: number;
+}
+
+export type HangHoaPurchasesOrder = {
+  id: string;
+  TenHangHoa: string;
+  DonViTinh: string | null;
+  GiaGocHangHoa: Decimal;
+  SLTonKho: number;
 }

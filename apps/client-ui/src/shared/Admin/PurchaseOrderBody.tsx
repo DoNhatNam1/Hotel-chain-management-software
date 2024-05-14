@@ -3,8 +3,10 @@
 import AdminAddPurchaseOrderButtonsComponent from '@/components/Buttons/AdminAddPurchaseOrderButtonsComponent'
 import AdminPurchaseOrderTableComponent from '@/components/Tables/AdminPurchaseOrderTableComponent'
 import AdminHeader from '@/components/Layout/AdminHeader'
+import getAllPhieuNhap from '@/actions/GET/get-all-phieu-nhap';
 
-const PurchaseOrderBody = () => {
+export default async function PurchaseOrderBody () {
+  const dataPhieuNhap = await getAllPhieuNhap();
   return (
     <div className="basis-5/6 bg-gray-200">
     <AdminHeader />
@@ -16,11 +18,11 @@ const PurchaseOrderBody = () => {
         <AdminAddPurchaseOrderButtonsComponent />
       </div>
       <div className="w-full grid place-content-center">
-        <AdminPurchaseOrderTableComponent />
+        <AdminPurchaseOrderTableComponent
+        dataPhieuNhap={dataPhieuNhap}
+         />
       </div>
     </div>
   </div>
   )
 }
-
-export default PurchaseOrderBody

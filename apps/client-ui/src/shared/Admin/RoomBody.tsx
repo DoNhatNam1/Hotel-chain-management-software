@@ -3,8 +3,12 @@
 import AdminAddRoomClassButtonComponent from "@/components/Buttons/Rooms/AdminAddRoomClassButtonComponent";
 import AdminRoomClassTableComponent from "@/components/Tables/Rooms/AdminRoomClassTableComponent";
 import AdminHeader from "@/components/Layout/AdminHeader";
+import getAllRoom from "@/actions/GET/get-all-room";
+import getAllRoomClass from "@/actions/GET/get-all-room-class";
 
-const RoomBody = () => {
+export default async function RoomBody() {
+  const dataHangPhong = await getAllRoomClass();
+  const dataPhong = await getAllRoom();
   return (
     <>
       <div className="basis-5/6">
@@ -17,12 +21,13 @@ const RoomBody = () => {
             <AdminAddRoomClassButtonComponent />
           </div>
           <div className="w-full grid place-content-center">
-            <AdminRoomClassTableComponent />
+            <AdminRoomClassTableComponent
+            dataHangPhong={dataHangPhong}
+            dataPhong={dataPhong}
+             />
           </div>
         </div>
       </div>
     </>
   );
 };
-
-export default RoomBody;

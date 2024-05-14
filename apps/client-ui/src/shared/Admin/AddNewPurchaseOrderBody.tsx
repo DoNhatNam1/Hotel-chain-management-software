@@ -9,15 +9,24 @@ import { Select } from "antd";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AiFillCheckSquare } from "react-icons/ai";
-import { FaRegRectangleList } from "react-icons/fa6";
-import { IoMdSearch } from "react-icons/io";
+import { FaPlus, FaRegRectangleList } from "react-icons/fa6";
+import { IoMdSave, IoMdSearch } from "react-icons/io";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { MdBlock, MdClose } from "react-icons/md";
-import type { HangHoaPurchasesOrder } from '@/types/product'
 import getHangHoaByNhomHangHoaId from "@/actions/GET/get-hang-hoa-by-nhom-hang-hoa-id";
 import toast from "react-hot-toast";
+import getAllNhaCungCap from "@/actions/GET/get-all-nha-phan-phoi";
+import { getByNameNhaCungCap } from "@/actions/GET/get-by-name-nha-phan-phoi";
+import { formSchema } from '@/lib/zod/formSchemaCreatePhieuNhap'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { createPhiepNhap } from "@/actions/POST/create-phieu-nhap-and-hang-hoa-detail";
 
+type TypeSchema = z.infer<typeof formSchema>
 type OpenSubNhomHangType = 'Open' | 'Close';
+
+type OpenNhaPhanPhoiType = 'NhaPhanPhoi'
 
 type GetAllNhomHangHotelTypeSchema = {
     id: string
@@ -28,10 +37,42 @@ const PurchaseOrderBody = () => {
     const router = useRouter()
     const [openSubNhomHangHoa, setOpenSubNhomHangHoa] = useState<OpenSubNhomHangType>('Close')
     const [nhomHangHotel, setNhomHangHotel] = useState<GetAllNhomHangHotelTypeSchema[]>([])
+    const [openNhaPhanPhoi, setOpenNhaPhanPhoi] = useState<OpenNhaPhanPhoiType | 'screen2'>('screen2')
     const [nhomHangHoaId, setNhomHangHoaId] = useState<string | undefined>('')
-    const [dataAfterSelected, setDataAfterSelected] = useState<HangHoaPurchasesOrder[]>([])
+    const [nhaPhanPhoiId, setNhaPhanPhoiId] = useState<string | undefined>('')
+    const [totalAmount, setTotalAmount] = useState<number>(0);
+    const [dataAfterSelected, setDataAfterSelected] = useState<any[]>([]);
+    const [nhaPhanPhoiData, setNhaPhanPhoiData] = useState<any[]>([])
 
-    const data = true;
+
+          const {
+            register,
+            handleSubmit,
+            formState: { errors, isSubmitting },
+          } = useForm<TypeSchema>({
+            resolver: zodResolver(formSchema),
+          })
+    
+          // Submit
+          const onSubmit = async (data: TypeSchema) => {
+            const dataSubmit = {
+              id: data.id,
+              MaNhaCungCap: nhaPhanPhoiId,
+              TongTienCanTra: totalAmount,
+              TienDaTra: data.TienDaTra,
+              Status: 'PhieuTam',
+              ChiTietNoiDungNhap: dataAfterSelected
+              
+            }
+            try {
+              await createPhiepNhap(dataSubmit)
+              console.log(dataSubmit)
+              router.push('/Admin/ImportGoods')
+              toast.success('Tạo phiếu nhập thành công!')
+            } catch (error: any) {
+              toast.error(error.message)
+            }
+          }
 
     // Effect
     useEffect(() => {
@@ -51,14 +92,21 @@ const PurchaseOrderBody = () => {
       }, [openSubNhomHangHoa])
 
       useEffect(() => {
-        let isApiSubscribed = true
+        let isApiSubscribed = true;
         if (isApiSubscribed) {
-          console.log(dataAfterSelected)
+          const fetchData = async () => {
+            const dataNhaCungCap = await getAllNhaCungCap();
+            setNhaPhanPhoiData(dataNhaCungCap as unknown as any[]);
+          };
+          
+          fetchData()
         }
-        return () => {
-          isApiSubscribed = false
-        }
-      }, [dataAfterSelected])
+    return () => {
+      isApiSubscribed = false;
+    };
+    }, [openNhaPhanPhoi]);
+
+
       
 
     const isUpperCase = (str: string) => {
@@ -68,15 +116,30 @@ const PurchaseOrderBody = () => {
         return false; // or handle the undefined case as per your requirement
       }
     
-      const dataEmployeeHotelWithLabelAndValue = nhomHangHotel.map((item: any) => ({
+      const dataNhaCungCapWithLabelAndValue = nhaPhanPhoiData.map((item: any) => ({
+        value: item.TenNhaCungCap,
+        label: isUpperCase(item.TenNhaCungCap)
+          ? item.TenNhaCungCap.toLowerCase()
+          : item.TenNhaCungCap,
+      }))
+
+          
+      const dataNhomHangWithLabelAndValue = nhomHangHotel.map((item: any) => ({
         value: item.TenNhomHangHoa,
         label: isUpperCase(item.TenNhomHangHoa)
           ? item.TenNhomHangHoa.toLowerCase()
           : item.TenNhomHangHoa,
       }))
 
+      
+
     //   Filter
-    const filterOptionNhomHangHoaHotel = (
+    const filterOptionNhaCUngCap = (
+        input: string,
+        option?: { label: string; value: string },
+      ) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+
+      const filterOptionNhomHangHoaHotel = (
         input: string,
         option?: { label: string; value: string },
       ) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -90,31 +153,56 @@ const PurchaseOrderBody = () => {
         }
       }
 
-      const handleChangeNhomHangHoa = async () => {
-        const dataSelected = await getHangHoaByNhomHangHoaId(nhomHangHoaId ?? '')
 
-        if(dataSelected){
-          setDataAfterSelected(dataSelected)
-          setOpenSubNhomHangHoa('Close')
+      const handleOpenNhaPhanPhoi = (e: any) => {
+        e.preventDefault()
+        setOpenNhaPhanPhoi('NhaPhanPhoi')
+      }
+
+      const handleChangeNhomHangHoa = async () => {
+        const dataSelected = await getHangHoaByNhomHangHoaId(nhomHangHoaId ?? '');
+      
+        if (dataSelected) {
+          const formattedData = dataSelected.map(item => {
+            if ('slTon' in item) {
+              // Already of the correct type
+              return item;
+            } else {
+              // Convert to HangHoaPurchasesOrderWithslTon
+              return {
+                ...item,
+                slTon: 0 // Set a default value for slTon
+              };
+            }
+          });
+          setDataAfterSelected(formattedData);
+          setOpenSubNhomHangHoa('Close');
         } else {
-          toast.error('Fail error 500, No data Selected found on Server')
-          setOpenSubNhomHangHoa('Close')
+          toast.error('Fail error 500, No data Selected found on Server');
+          setOpenSubNhomHangHoa('Close');
+        }
+      };
+
+      const onChangeSelectNhaCungCap = async (value: string) => {
+        let data = await getByNameNhaCungCap(value)
+    
+        if (data) {
+          setNhaPhanPhoiId(data?.id)
         }
       }
   return (
     <>
         <div className="basis-5/6 bg-gray-200">
         <form 
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         className='w-full h-full px-5 py-3 flex gap-2'
         >
 
-
         {/* LeftBody Container */}
-        <div className="basis-2/3 flex flex-col gap-2 bg-red-400">
+        <div className="basis-2/3 flex flex-col gap-2 ">
             
             {/* TopButtonAndSearchBar */}
-            <div className="basis-1/12 bg-green-700">
+            <div className="basis-1/12 ">
                 
                 {/* LeftButtonAndSeachBar */}
                 <div className="flex gap-3">
@@ -159,21 +247,108 @@ const PurchaseOrderBody = () => {
             </div>
 
             {/* BottomTableList */}
-            <div className="basis-11/12 bg-pink-300 overflow-y-auto">
+            <div className="basis-11/12 overflow-y-auto">
                 {dataAfterSelected.length === 0 ? (
                     <TableNoDataDisplay />
                 ) : (
                     <AdminTableDisplayAddPurchaseOrderComponent 
                     dataAfterSelected={dataAfterSelected}
                     setDataAfterSelected={setDataAfterSelected}
+                    setTotalAmount={setTotalAmount}
                     />
                 )}
             </div>
         </div>
 
         {/* RightBody Container */}
-        <div className="basis-1/3 bg-yellow-300">
-            Right
+        <div className="basis-1/3 p-5 bg-gray-300 space-y-6">
+
+        <div className="flex items-center">
+                <label htmlFor="nhomHang" className={`${styles.formlabel}`}>
+                  Nhà cung cấp:
+                  <span className="text-orange-500">*</span>
+                </label>
+                <Select
+                  showSearch
+                  placeholder="--Lựa chọn--"
+                  optionFilterProp="children"
+                  onChange={onChangeSelectNhaCungCap}
+                  // onSearch={onSearchSelect}
+                  filterOption={filterOptionNhaCUngCap}
+                  options={dataNhaCungCapWithLabelAndValue.map((option) => ({
+                    label: option.label,
+                    value: option.value,
+                  }))}
+                  className={`${styles.formInput} px-0 w-[62%]`}
+                />
+                <button
+                  onClick={handleOpenNhaPhanPhoi}
+                  className="w-auto border-b border-t-0 border-x-0 border-gray-400 border-large bg-white p-[6px] hover:bg-gray-50"
+                >
+                  <span className="w-full">
+                    <FaPlus className="size-5 text-gray-500" />
+                  </span>
+                </button>
+              </div>
+            
+            {/* Items Group */}
+            <div className="w-[80%] flex gap-2">
+              <label 
+              className={`${styles.label} `}
+              htmlFor="MaPhieuNhap">
+                <span className="text-gray-700">Mã phiếu</span>
+              </label>
+              <input 
+              {...register('id')}
+              type="text" 
+              placeholder="Mã phiếu nhập tự động" 
+              className={`${styles.formInput}`}
+              />
+            </div>
+
+             {/* Items Group */}
+              <div className="w-[80%] flex gap-2">
+              <label 
+              className={`${styles.label} `}
+              htmlFor="TongTienCanTra">
+                <span className="text-gray-700">Tổng tiền hàng</span>
+              </label>
+              <input 
+              disabled
+              type="text" 
+              value={totalAmount}
+              className={`${styles.formInput}`}
+              />
+            </div>
+
+                {/* Items Group */}
+               <div className="w-[80%] flex gap-2">
+              <label 
+              className={`${styles.label} `}
+              htmlFor="TienDaTra">
+                <span className="text-gray-700">Tiền trả nhà cung cấp</span>
+              </label>
+              <input 
+              {...register("TienDaTra", { valueAsNumber: true })}
+              type="number" 
+              className={`${styles.formInput}`}
+              />
+            </div>
+
+            
+        {/* Button Submit Group */}
+        <div className="flex justify-end pr-5 gap-2">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`${styles.formbtn}`}
+          >
+            <span className="h-full grid place-content-center">
+              <IoMdSave className="size-4 hover:text-gray-500" />
+            </span>
+            <span>Lưu</span>
+          </button>
+        </div>
         </div>
         </form>
   </div>
@@ -202,7 +377,7 @@ const PurchaseOrderBody = () => {
               onChange={onChangeSelectNhomHangHoaHotel}
               // onSearch={onSearchSelect}
               filterOption={filterOptionNhomHangHoaHotel}
-              options={dataEmployeeHotelWithLabelAndValue.map(
+              options={dataNhomHangWithLabelAndValue.map(
                 (option: { label: string; value: string }) => ({
                   label: option.label,
                   value: option.value,

@@ -1,16 +1,19 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import type { HangHoaPurchasesOrder } from '@/types/product'
+import type { HangHoaPurchasesOrder, HangHoaPurchasesOrderWithslTon } from '@/types/product'
 import { Button } from '@nextui-org/react'
+import styles from '@/utils/style'
 
 export default function AdminTableDisplayAddPurchaseOrderComponent ({
   dataAfterSelected,
+  setTotalAmount,
   setDataAfterSelected
 }: {
-  dataAfterSelected: HangHoaPurchasesOrder[]
+  dataAfterSelected: HangHoaPurchasesOrderWithslTon[]
+  setTotalAmount: (e: any) => void
   setDataAfterSelected: (e: any) => void
 }) {
-  const [totalAmount, setTotalAmount] = useState<number>(0);
+
 
 
   // useEffect để cập nhật giá trị slTon cho mỗi phần tử trong mảng dataAfterSelected
@@ -18,15 +21,17 @@ export default function AdminTableDisplayAddPurchaseOrderComponent ({
     // Tạo một mảng mới chứa giá trị slTon tương ứng với mỗi mục trong dataAfterSelected
     const newDataAfterSelected = dataAfterSelected.map((item) => ({
       ...item,
-      slTon: 0, // Thêm trường slTon và khởi tạo giá trị là 0 cho mỗi phần tử
+      slTon: 0,
     }));
+
     // Cập nhật dataAfterSelected với mảng mới có chứa giá trị slTon
     setDataAfterSelected(newDataAfterSelected);
-  }, [dataAfterSelected, setDataAfterSelected]);
+
+  }, []);
 
   useEffect(() => {
     const newTotalAmount = dataAfterSelected.reduce((acc, item) => {
-      return acc + (item.SLTonKho * Number(item.GiaGocHangHoa) || 0);
+      return acc + (item.slTon * Number(item.GiaGocHangHoa));
     }, 0);
     setTotalAmount(newTotalAmount);
   }, [dataAfterSelected]);
@@ -41,11 +46,11 @@ export default function AdminTableDisplayAddPurchaseOrderComponent ({
         newTotalAmount += newTotal;
         return {
           ...item,
-          SLTonKho: newQuantity,
+          slTon: newQuantity,
           ThanhTien: newTotal,
         };
       }
-      newTotalAmount += item.SLTonKho * Number(item.GiaGocHangHoa);
+      newTotalAmount += item.slTon * Number(item.GiaGocHangHoa);
       return item;
     });
   
@@ -55,7 +60,7 @@ export default function AdminTableDisplayAddPurchaseOrderComponent ({
   };
 
   const handleDeleteFilter = (id: string) => {
-    const updatedData = dataAfterSelected.filter((item: HangHoaPurchasesOrder) => item.id!== id);
+    const updatedData = dataAfterSelected.filter((item: HangHoaPurchasesOrderWithslTon) => item.id!== id);
     setDataAfterSelected(updatedData);
   }
 
@@ -70,10 +75,10 @@ export default function AdminTableDisplayAddPurchaseOrderComponent ({
         return {
           ...item,
           GiaGocHangHoa: newDonGia,
-          ThanhTien: newTotal,
+          ThanhTien: newTotal, // Cập nhật ThanhTien ở đây
         };
       }
-      newTotalAmount += item.SLTonKho * Number(item.GiaGocHangHoa);
+      newTotalAmount += item.slTon * Number(item.GiaGocHangHoa);
       return item;
     });
   
@@ -90,48 +95,55 @@ export default function AdminTableDisplayAddPurchaseOrderComponent ({
         <tr>
         <th scope="col" className="px-6 py-3">
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-gray-700">
                    STT
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-gray-700">
                     Mã hàng hóa
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-gray-700">
                     Tên hàng
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-gray-700">
                     Số lượng
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-gray-700">
                     Đơn giả
+                </th>
+                <th scope="col" className="px-6 py-3 text-gray-700">
+                    Thành tiền
                 </th>
         </tr>
       </thead>
       <tbody>
-        {dataAfterSelected.map((item: HangHoaPurchasesOrder, index: number) => (
+        {dataAfterSelected.map((item: HangHoaPurchasesOrderWithslTon, index: number) => (
           <tr key={index}>
              <td className='px-6 py-4'>
               <Button color='danger' onClick={() => handleDeleteFilter(item.id)}>
                 Delete
               </Button>
             </td>
-            <td className='px-6 py-4'>
+            <td className='px-6 py-4 text-gray-700'>
               {index}
             </td>
-            <td className='px-6 py-4'>
+            <td className='px-6 py-4 text-gray-700'>
               {item.id}
             </td>
-            <td className='px-6 py-4'>
+            <td className='px-6 py-4 text-gray-700'>
               <p>{item.TenHangHoa} ({item.DonViTinh})</p>
             </td>
-            <td className='px-6 py-4'>
-            <input type="number" placeholder='SL Ton' onChange={(e) => handleQuantityChange(e, index)} />
+            <td className='px-6 py-4 text-gray-700'>
+            <input 
+              className={`${styles.formInput} w-[20%]`}
+            type="number" placeholder='SL Ton' value={Number(item.slTon)} onChange={(e) => handleQuantityChange(e, index)} />
             </td>
             <td className='px-6 py-4'>
-              <input type="number" placeholder='Don Gia' value={Number(item.GiaGocHangHoa)} onChange={(e)=> handleChangeDonGia(e, index)} />
+              <input 
+              className={`${styles.formInput} w-[20%]`}
+              type="number" placeholder='Don Gia' value={Number(item.GiaGocHangHoa)} onChange={(e)=> handleChangeDonGia(e, index)} />
             </td>   
             <td className='px-6 py-4'>
-              <p>{item.slTon * Number(item.GiaGocHangHoa)}</p>
+              <p className='text-gray-700'>{Number(item.slTon) * Number(item.GiaGocHangHoa)}</p>
             </td>       
           </tr>
         ))}
