@@ -7,21 +7,21 @@ Chào mừng đến với Website mã nguồn mở Quản lý chuỗi Khách S�
 
 ### về phía máy client
 
-B1: mở Terminal mới từ folder Hotel-chain-managememt-software-v2- rồi gõ lệnh: cd/apps/client-ui
+B1: mở Terminal mới từ folder gốc rồi gõ lệnh: cd/apps/client-ui
 
 B2: gõ lệnh: npm i như phía dưới
 ![Project Image](./client_install.png)
 
-B3: Làm theo [Client_ReadMe](https://github.com/Nhom7-CNPM3/Hotel-chain-management-software-v2-/blob/Hotel_Branch/apps/client-ui/README.md)
+B3: Làm theo [Client_ReadMe](https://github.com/DoNhatNam1/SaaS-MicroService-Sales-management-rental-website/blob/Hotel_Branch/apps/client-ui/README.md)
 
 ### về phía máy chủ Server
 
-B1: mở Terminal mới từ folder Hotel-chain-managememt-software-v2- rồi gõ lệnh: cd/apps/Server/gateway
+B1: mở Terminal mới từ folder gốc rồi gõ lệnh: cd/apps/Server/gateway
 
 B2: gõ lệnh: npm i như phía dưới
 ![Project Image](./server_install.png)
 
-B3: Làm theo [Server_ReadMe](https://github.com/Nhom7-CNPM3/Hotel-chain-management-software-v2-/blob/Hotel_Branch/apps/Server/gateway/README.md) 
+B3: Làm theo [Server_ReadMe](https://github.com/DoNhatNam1/SaaS-MicroService-Sales-management-rental-website/blob/Hotel_Branch/apps/Server/gateway/README.md) 
 
 ### Lưu ý: 
 
