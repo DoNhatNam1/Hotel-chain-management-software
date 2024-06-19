@@ -38,7 +38,7 @@ $ npm install
 # development
 $ npm run start
 
-# watch mode (Chạy dòng lệnh này để web hoạt dộng)
+# watch mode (Run this command to get the website working)
 $ npm run start:dev users
 ```
 
